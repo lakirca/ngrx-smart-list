@@ -1,0 +1,21 @@
+.photo {
+  cursor: pointer;
+  min-height: 110px;
+  margin: 2px 0 2px 2px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  background-size: cover;
+  background: no-repeat 0 0;
+  background-size: cover;
+}
+
+.photo-text {
+  font-size: 13px;
+  position: relative;
+  color: white;
+  top: 85px;
+  text-align: center;
+  padding: 5px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.53), rgba(0, 0, 0, 0.2));
+}

@@ -1,0 +1,220 @@
+<div class="content">
+  <div>
+    <div class="navlink" (click)="goBack()"><a>Back to Results</a></div>
+    <div class="container-header pt-3">
+      <h1 class="heading">{{ propertyData?.name }}</h1>
+      <h2 class="subheading mt-3">
+        {{ propertyData?.streetAddress }} {{ propertyData?.city }}
+      </h2>
+    </div>
+
+    <div class="action-table">
+      <div class="action-row">
+        <div>
+          <a
+            href="tel:{{
+              propertyData?.phone
+                .replace('(', '')
+                .replace('-', '')
+                .replace(')', '').trim
+            }}"
+          >
+            <img src="../../../../assets/images/phone.svg" class="action-img" />
+            <div class="action-text">CALL</div>
+          </a>
+        </div>
+      </div>
+      <div class="action-row" *ngIf="propertyData?.email">
+        <a href="mailto:{{ propertyData?.email }}">
+          <div>
+            <img
+              src="../../../../assets/images/envalope.svg"
+              class="action-img"
+            />
+            <div class="action-text">EMAIL</div>
+          </div>
+        </a>
+      </div>
+      <div class="action-row" *ngIf="propertyData?.url">
+        <a href="{{ propertyData?.url }}" target="_blank">
+          <div>
+            <img src="../../../../assets/images/globe.svg" class="action-img" />
+            <div class="action-text">WEBSITE</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="container-photos">
+      <div class="favContainer">
+        <a
+          *ngIf="propertyData?.streetAddress"
+          href="http://maps.google.com/?daddr={{
+            propertyData?.streetAddress
+          }},{{ propertyData?.city }} {{ propertyData?.state }}"
+          target="_blank"
+          ><img src="../../../../assets/images/navigate.svg" class="favImg"
+        /></a>
+      </div>
+
+      <ng-container
+        *ngFor="
+          let photoUrl of propertyData?.photos?.slice(0, 3);
+          let last = last
+        "
+      >
+        <div
+          class="photo"
+          (click)="showGallery(true, $event.target.src)"
+          [ngStyle]="{
+            'background-image':
+              'url(' + photoUrl.replace('/standard/', '/micros/') + ')'
+          }"
+        >
+          <div class="photo-text" *ngIf="last">
+            {{ propertyData?.photos.length }} Photos
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="section-container fade-in" *ngIf="propertyData?.displayNotes">
+      <div
+        *ngIf="propertyData?.displayNotes.includes('...')"
+        (click)="expandNotes()"
+        class="container-text comments"
+        [class.clickable]="propertyData?.displayNotes.includes('...')"
+      >
+        "{{ propertyData?.displayNotes.replace('\n', '') }}"
+        <img
+          src="../../../../assets/images/arrow-down-thick.svg"
+          class="arrow-down"
+        />
+      </div>
+      <div
+        *ngIf="!propertyData?.displayNotes.includes('...')"
+        class="container-text comments pre-wrap"
+      >
+        {{ propertyData?.notes }}
+      </div>
+    </div>
+
+    <div class="section-container">
+      <div class="container-options">
+        <div
+          class="container-options-item policy"
+          *ngIf="propertyData?.management"
+        >
+          <img
+            class="small-icon"
+            src="../../../../assets/images/building.svg"
+          />
+          <div class="container-options-item-text no-wrap">
+            {{ propertyData?.management }}
+
+            <img
+              *ngIf="
+                propertyData?.managementOffices?.length > 0 && !isMgmtExpanded
+              "
+              (click)="expandMgmt()"
+              src="../../../../assets/images/arrow-down-thick.svg"
+              class="arrow-down"
+            />
+          </div>
+        </div>
+
+        <ng-container *ngIf="isMgmtExpanded">
+          <div
+            class="container-options-item expanded-item"
+            *ngFor="let office of propertyData?.managementOffices"
+          >
+            <div class="small-icon"></div>
+            <div class="container-options-item-text no-wrap">
+              <a
+                href="http://maps.google.com/?daddr={{
+                  office.streetAddress
+                }},{{ office.city }} {{ office.state }}"
+                target="_blank"
+                class="expanded-text"
+                >{{ office.streetAddress }}, {{ office.city }}
+                {{ office.state }}</a
+              >
+            </div>
+          </div>
+        </ng-container>
+
+        <app-vendor-details-manager
+          *ngIf="propertyData?.onsiteManager"
+          [onsiteManager]="propertyData?.onsiteManager || ''"
+        ></app-vendor-details-manager>
+
+        <app-vendor-details-regional
+          *ngIf="propertyData?.regionalName"
+          [regionalEmail]="propertyData?.regionalEmail || ''"
+          [regionalPhone]="propertyData?.regionalPhone || ''"
+          [regionalName]="propertyData?.regionalName || ''"
+          [phone]="propertyData?.phone || ''"
+        ></app-vendor-details-regional>
+
+        <div
+          class="container-options-item policy"
+          *ngIf="specialClassification"
+        >
+          <img class="small-icon" src="../../../../assets/images/label.svg" />
+          <div class="container-options-item-text no-wrap">
+            {{ specialClassification }}
+          </div>
+        </div>
+        <div
+          class="container-options-item policy"
+          *ngIf="propertyData?.petInfo && !propertyData?.petInfo.allowed"
+        >
+          <img class="small-icon" src="../../../../assets/images/bird.svg" />
+          <div class="container-options-item-text no-wrap">
+            No Pets Allowed
+          </div>
+        </div>
+        <div
+          class="container-options-item policy"
+          *ngIf="propertyData?.parkingOptions?.length"
+        >
+          <img
+            class="small-icon"
+            src="../../../../assets/images/parksign.svg"
+          />
+          <div class="container-options-item-text no-wrap">
+            <ng-container
+              *ngFor="
+                let parkingOption of propertyData?.parkingOptions;
+                let last = last
+              "
+            >
+              {{ parkingOption }}{{ last ? '' : ',' }}
+            </ng-container>
+            Parking
+          </div>
+        </div>
+        <div
+          class="container-options-item policy"
+          *ngIf="propertyData?.yearBuilt > 0"
+        >
+          <img class="small-icon" src="../../../../assets/images/shovel.svg" />
+          <div class="container-options-item-text no-wrap">
+            Built {{ propertyData?.yearBuilt }}
+            <span
+              *ngIf="propertyData?.yearRenovated > 0"
+              class="container-options-item-text"
+            >
+              Renovated {{ propertyData?.yearRenovated }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-locator-details-amenities
+      [propertyData]="propertyData"
+      [showAllAmenities]="showAllAmenities"
+    ></app-locator-details-amenities>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="img-container">
+  <div class="resize">
+    <img [src]="imageSrc" class="img" />
+  </div>
+
+  <div class="img-container__arrow-box">
+    <app-image-arrow [total]="images.length" [current]="imageIndex" (showNext)="handleNext($event)"></app-image-arrow>
+  </div>
+</div>

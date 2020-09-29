@@ -1,0 +1,7 @@
+<div class="d-flex flex-row h-100">
+  <div *ngFor="let photoUrl of photos; let last = last" class="photo" (click)="onShowGallery(true, photoUrl)" [ngStyle]="{
+      'background-image': 'url(' + image(photoUrl) + ')'
+    }">
+    <div class="photo-text" *ngIf="last">{{ photos.length }} Photos</div>
+  </div>
+</div>

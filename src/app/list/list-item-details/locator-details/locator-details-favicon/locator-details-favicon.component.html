@@ -1,0 +1,13 @@
+<!-- HARVEY role -->
+<ng-container *ngIf="isHarvey; else nonHarveyBlock">
+  <a [href]="phone" class="favContainer">
+    <img src="../../../../assets/images/phone.svg" class="favImg" />
+  </a>
+</ng-container>
+
+<!-- Non HARVEY role -->
+<ng-template #nonHarveyBlock>
+  <div class="favContainer" [class.selected]="favorite" (click)="toggle()">
+    <img src="../../../../assets/images/heart-white.svg" class="favImg" />
+  </div>
+</ng-template>

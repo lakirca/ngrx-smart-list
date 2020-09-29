@@ -1,0 +1,20 @@
+<div class="list-container">
+  <div class="list-container-item-content">
+    <div class="list-container-item-content-header">
+      <div class="favImg" *ngIf="dataItem.favorite">
+        <img src="../../../../assets/images/heart-yellow.svg" width="12">
+      </div>
+      <span class="indicator-box">{{dataItem.order}}</span>
+      {{dataItem.name}}
+    </div>
+    <div class="list-container-item-subheading">{{dataItem.streetAddress}}, {{dataItem.city}}</div>
+    <div class="list-container-item-content-section">
+      {{dataItem.management}}
+    </div>
+  </div>
+
+  <div class="list-container-item-image">
+    <img src="../../../../assets/images/building.svg" width="32" *ngIf="!dataItem.photo && !dataItem.management">
+    <img src="{{dataItem.photo}}" class="property-preview-image" *ngIf="dataItem.photo">
+  </div>
+</div>

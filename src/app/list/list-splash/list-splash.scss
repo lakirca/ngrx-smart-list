@@ -1,0 +1,58 @@
+.content {
+  background-size: 65%;
+  top: 0;
+  position: absolute;
+  background: rgb(194, 228, 255) url('../../../assets/images/welcome-bg.svg')
+    no-repeat scroll 50% 100%;
+}
+
+.heading {
+  color: white;
+}
+
+.title {
+  margin-top: 50px;
+  color: rgb(77, 87, 104);
+  font-size: 32px;
+  font-weight: 400;
+  text-align: center;
+}
+
+h1 {
+  font-size: 38px;
+  line-height: 44px;
+  margin-top: 20px;
+}
+
+.subtitle {
+  display: block;
+  width: 85%;
+  margin-right: auto;
+  margin-bottom: 30px;
+  margin-left: auto;
+  color: rgb(77, 87, 104);
+  font-size: 18px;
+  line-height: 33px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.button {
+  cursor: pointer;
+  color: white;
+  display: block;
+  width: 200px;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 10px;
+  background-color: #ff9800;
+  border: 1px solid rgb(222, 134, 4);
+  font-size: 20px;
+  text-align: center;
+}
+
+.button-text {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 400;
+}

@@ -1,0 +1,14 @@
+<div class="d-flex flex-row">
+  <div class="p-0 mr-2">
+    <h1 class="heading">{{ name }}</h1>
+  </div>
+  <div class="p-0">
+    <div *ngIf="url" class="property-link">
+      <a href="{{ url }}" target="_blank" class="icon-action">
+        <img src="../../../../assets/images/globe.svg" width="14" /></a>
+
+      <a *ngIf="streetAddress" [href]="link" target="_blank" class="icon-action"><img
+          src="../../../../assets/images/car-white.svg" width="14" /></a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0.8;
+    background: rgba(255, 235, 59, 0.1);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation-name: fadeIn;
+  animation-iteration-count: 2;
+  animation-timing-function: ease-in-out;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.container-text {
+  position: static;
+  left: 0;
+  right: 0;
+  font-size: 13px;
+  line-height: 24px;
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
+}
+
+.container-text.comments {
+  display: inline;
+  color: #6b6868;
+}
+
+.container-text.author {
+  font-weight: 500;
+  display: block;
+}

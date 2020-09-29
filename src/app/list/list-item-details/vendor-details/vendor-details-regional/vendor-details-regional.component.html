@@ -1,0 +1,30 @@
+<div class="container-options-item policy">
+  <img class="small-icon" src="../../../../assets/images/business-podium.svg" />
+  <div class="container-options-item-text">
+    {{ regionalName }}, Regional
+
+    <img *ngIf="(regionalPhone || regionalEmail) && !isRegionalExpanded" (click)="expandRegional()"
+      src="../../../../assets/images/arrow-down-thick.svg" class="arrow-down" />
+  </div>
+</div>
+
+<div class="container-options-item expanded-item" *ngIf="regionalPhone && isRegionalExpanded">
+  <div class="small-icon"></div>
+  <div class="container-options-item-text">
+    <a href="tel:{{
+        phone
+          .replace('(', '')
+          .replace('-', '')
+          .replace(')', '').trim
+      }}" class="expanded-text">
+      {{ regionalPhone }}</a>
+  </div>
+</div>
+<div class="container-options-item expanded-item" *ngIf="regionalEmail && isRegionalExpanded">
+  <div class="small-icon"></div>
+  <div class="container-options-item-text">
+    <a href="mailto:{{ regionalEmail }}" class="expanded-text">{{
+      regionalEmail
+    }}</a>
+  </div>
+</div>

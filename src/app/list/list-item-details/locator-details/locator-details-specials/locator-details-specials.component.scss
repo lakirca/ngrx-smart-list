@@ -1,0 +1,30 @@
+.specials {
+  padding: 5px 15px 20px;
+  border-bottom: 1px solid #dedede;
+
+  &__heading {
+    color: #666;
+    font-size: 15px;
+    display: block;
+    padding-top: 7px;
+    padding-bottom: 0;
+  }
+
+  &__options {
+    display: flex;
+    padding-top: 10px;
+    /*padding-bottom: 20px;*/
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: stretch;
+
+    &_text {
+      position: static;
+      left: 0;
+      right: 0;
+      font-size: 13px;
+      line-height: 24px;
+    }
+  }
+}

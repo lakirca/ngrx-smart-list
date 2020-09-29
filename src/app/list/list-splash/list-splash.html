@@ -1,0 +1,22 @@
+<body class="content">
+  <div>
+    <div class="heading">
+      <h1 class="title">Important.</h1>
+    </div>
+    <div class="subheading">
+      <h3 class="subtitle">
+
+        <span *ngIf="splash?.length" [innerHtml]="splash"></span>
+
+        <ng-container *ngIf="splash?.length === 0">
+          Please remember to write '{{agentName}}' with
+          '{{agentCompany}}' on your guest card and lease application. My services are paid for by
+          the apartment communities and are free to you.
+        </ng-container>
+      </h3>
+      <div class="button" (click)="onClose()">
+        <div class="button-text">Got it. Thanks.</div>
+      </div>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,35 @@
+.gallery {
+  display: flex;
+  max-width: 1024px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1px;
+  flex-wrap: wrap;
+}
+
+.image {
+  cursor: pointer;
+  padding: 1px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 310px;
+  transition-property: transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+img:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+  background: rgb(158, 158, 158);
+}
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  display: inline-block;
+  border: 0;
+}
+
+* {
+  box-sizing: border-box;
+}

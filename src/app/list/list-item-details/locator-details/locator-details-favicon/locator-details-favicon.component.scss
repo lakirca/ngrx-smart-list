@@ -1,0 +1,43 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins/breakpoints';
+
+$mobile-breakpoint: 'xs';
+
+.favContainer {
+  position: absolute;
+  top: 20px;
+  left: calc(100% - 77px);
+  z-index: 99;
+
+  cursor: pointer;
+  display: block;
+  width: 55px;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 50px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  @include media-breakpoint-down($mobile-breakpoint) {
+    top: 57px;
+  }
+}
+
+.favContainer.selected {
+  background-color: #ffeb3b;
+}
+
+.favImg {
+  display: inline-block;
+  padding: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  display: inline-block;
+}

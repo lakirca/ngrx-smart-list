@@ -1,0 +1,4 @@
+o ADD: mobile splash screen
+
+LOW PRIORITY
+o centralize assets directory

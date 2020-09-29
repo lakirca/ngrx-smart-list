@@ -1,0 +1,47 @@
+<div class="list-container">
+  <div class="list-container-item-content">
+    <div class="list-container-item-content-header">
+      <div class="favImg" *ngIf="dataItem.favorite">
+        <img src="../../../assets/images/heart-yellow.svg" width="12" />
+      </div>
+      {{ dataItem.name }}
+    </div>
+    <div class="list-container-item-subheading">
+      {{ dataItem.streetAddress }}, {{ dataItem.city }}
+    </div>
+    <div class="list-container-item-content-section">
+      <ng-container *ngFor="let floorplan of dataItem.floorplans">
+        <div class="nowrap">
+          <div class="floorplan-type" [ngSwitch]="floorplan.bedrooms">
+            <ng-container *ngSwitchCase="0"><img src="../../../assets/images/0-bed.svg" width="4" /></ng-container>
+            <ng-container *ngSwitchCase="1"><img src="../../../assets/images/1-bed.svg" width="16" /></ng-container>
+            <ng-container *ngSwitchCase="2"><img src="../../../assets/images/2-bed.svg" width="16" /></ng-container>
+            <ng-container *ngSwitchCase="3"><img src="../../../assets/images/3-bed.svg" width="16" /></ng-container>
+          </div>
+          <span class="floorplan-rent">{{ floorplan.price | currency: 'USD':'symbol':'1.0-2' }}+</span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="list-container-item-content-section utilities">
+      <ng-container *ngIf="dataItem.highValueAmenities.length > 1">
+        {{ dataItem.highValueAmenities.length }}
+        High value amenities
+      </ng-container>
+
+      <ng-container *ngIf="dataItem.highValueAmenities.length == 1">
+        {{ dataItem.highValueAmenities.length }}
+        High value amenity
+      </ng-container>
+
+      <span *ngIf="dataItem.paidUtilities.length">·
+        <ng-container *ngFor="let utility of dataItem.paidUtilities; let last = last">
+          {{ utility }}{{ last ? '' : ', ' }}</ng-container>
+        Paid
+      </span>
+    </div>
+  </div>
+
+  <div class="list-container-item-image">
+    <img src="{{ dataItem.photo }}" class="property-preview-image" *ngIf="dataItem.photo" />
+  </div>
+</div>

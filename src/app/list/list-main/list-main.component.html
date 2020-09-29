@@ -1,0 +1,35 @@
+<div class="main-box">
+  <mat-drawer-container class="main-box__drawer" autosize>
+    <mat-drawer #drawer class="main-box__sidenav" mode="side" [opened]="showSideNav">
+      <router-outlet></router-outlet>
+    </mat-drawer>
+    <div class="main-box__content">
+      <!-- Free service -->
+      <app-tip-free-service *ngIf="showWelcome === 'show'" (close)="closeSplashScreen()"></app-tip-free-service>
+
+      <!-- Map -->
+      <app-map-items *ngIf="showMap" #mapRef (markerClicked)="onMapZoomedIn()"></app-map-items>
+
+      <app-image-big-view *ngIf="needToShowGallery"></app-image-big-view>
+    </div>
+  </mat-drawer-container>
+
+  <!-- Slider -->
+  <div class="main-box__menu" *ngIf="needToShowMenuIcon">
+    <app-list-main-map-switch [toggleState]="mapOpened" image="/assets/images/menu-icon.svg" [width]="40"
+      (toggle)="onToggle($event); drawer.toggle()"></app-list-main-map-switch>
+  </div>
+  <div class="main-box__map" *ngIf="needToShowMapIcon">
+    <app-list-main-map-switch [toggleState]="mapOpened" image="/assets/images/map-icon.svg" [size]="18"
+      (toggle)="onToggle($event); drawer.toggle()"></app-list-main-map-switch>
+  </div>
+
+  <!-- Map expand button -->
+  <div class="main-box__expand-btn" *ngIf="needToShowExpandMapIcon" [@showSmooth]>
+    <app-list-main-expand-map-switch (toggle)="onExpandMap()"></app-list-main-expand-map-switch>
+  </div>
+</div>
+
+<div class="footer">
+  <app-footer></app-footer>
+</div>

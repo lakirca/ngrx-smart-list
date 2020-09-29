@@ -1,0 +1,11 @@
+<div class="section-container fade-in">
+  <div class="container-text author">{{ firstname + ' ' + lastname }} says</div>
+  <div *ngIf="displayNotes.includes('...')" (click)="expandNotes()" class="container-text comments"
+    [class.clickable]="displayNotes.includes('...')">
+    "{{ displayNotes.replace('\n', '') }}"
+    <img src="../../../../assets/images/arrow-down-thick.svg" class="arrow-down" />
+  </div>
+  <div *ngIf="!displayNotes.includes('...')" class="container-text comments pre-wrap">
+    {{ notes }}
+  </div>
+</div>

@@ -1,0 +1,41 @@
+// Third party imports
+@import url('//fonts.googleapis.com/css?family=Roboto');
+
+// Local stylesheets
+@import './styles/locator-details.scss';
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 5%;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(207, 207, 207);
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(180, 180, 180);
+}
+
+.mat-drawer-inner-container {
+  overflow-y: scroll;
+  overflow-x: hidden !important;
+}

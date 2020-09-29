@@ -1,0 +1,16 @@
+.subheading {
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 200;
+
+  &__phone {
+    padding-left: 7px;
+    font-weight: 200;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 14px;
+  }
+}

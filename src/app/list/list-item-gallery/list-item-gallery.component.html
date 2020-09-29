@@ -1,0 +1,5 @@
+<div class="gallery">
+  <div class="image" *ngFor="let url of propertyData?.photos; let i = index" (click)="showGallery(url)">
+    <img [src]="url" />
+  </div>
+</div>

@@ -1,0 +1,123 @@
+.section-filter {
+  color: white;
+  background: #2196F3;
+  width: 100%;
+  position: relative;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.section-filter-selected {
+  background: #1976D2;
+}
+
+.filter-body {
+  background: #2196F3;
+  padding: 15px;
+  height: 65px;
+}
+
+.filter-title {
+  padding-left: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filter-content {
+  padding-left: 10px;
+  font-size: 13px;
+  line-height: 20px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filter-content.item {
+  display: inline;;
+}
+
+.filter-box {
+  display: inline-block;
+  text-align: left;
+  padding: 12px 15px 9px 4px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+}
+
+.filter-favorite {
+  position: absolute;
+  right: 18px;
+  top: 10px;
+}
+
+.filter-box-selected {
+  display: inline-block;
+  text-align: left;
+  width: 100px;
+  padding: 12px 0 9px 4px;
+  border-bottom: 3px solid #2196F3;
+  cursor: pointer;
+}
+
+.list-container {
+  background-color: #fafafa;
+  min-height: 100%;
+}
+
+.list-container-disabled {
+  background: white;
+  z-index: 100;
+  opacity: 0.5;
+}
+
+.list-container-item {
+  color: #6b6868;
+  cursor: pointer;
+  min-height: 100px;
+  transition: box-shadow .4s ease-in-out;
+  background: white;
+  margin: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 1px 1px 1px #e0e0e0;
+}
+
+.list-container-item-selected {
+  color: #6b6868;
+  cursor: pointer;
+  min-height: 110px;
+  transition: box-shadow .4s ease-in-out;
+  background: rgb(247, 247, 247);
+  border-left: 4px solid #1f8ceb;
+}
+
+.arrow-down {
+  cursor: pointer;
+  padding-left: 5px;
+  width: 10px;
+  display: inline-block;
+}
+
+.section-company {
+  height: 45px;
+  font-size: 14px;
+  z-index: 5;
+  color: #fff;
+  background-color: #1976d2;
+  text-align: left;
+  white-space: nowrap;
+  padding: 11px 5px 0px 15px;
+}
+
+.heading-note{
+  font-size: 13px;
+  color: #8c8787;
+  padding-left: 17px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}

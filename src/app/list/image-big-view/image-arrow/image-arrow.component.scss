@@ -1,0 +1,22 @@
+.arrows-box {
+  position: absolute;
+  cursor: pointer;
+  background-color: #222222;
+  outline: none;
+  border-radius: 6px;
+
+  &__divider {
+    background-color: #222222;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    height: 18px;
+    top: 7px;
+    width: 1px;
+  }
+
+  &__item:hover {
+    background-color: #333333;
+    border-radius: 5px;
+  }
+}

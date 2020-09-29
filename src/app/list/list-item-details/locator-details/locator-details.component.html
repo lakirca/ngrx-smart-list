@@ -1,0 +1,62 @@
+<div class="content">
+  <div [hidden]="!isGalleryVisible">
+    <div class="galleryActionBar" (click)="showGallery({ visible: false, url: null })">
+      <div class="galleryActionImg">
+        <img width="24" src="https://cdn.smartapartmentdata.com/images/svg/32/return-white.svg" />
+      </div>
+      <div class="galleryActionText">{{ propertyData?.name }}</div>
+    </div>
+    <app-list-item-gallery></app-list-item-gallery>
+  </div>
+
+  <div [hidden]="isGalleryVisible" class="side-box">
+    <div class="side-box__navlink" (click)="goBack()">
+      <a>Back to Results</a>
+    </div>
+    <div class="side-box__header">
+      <div class="side-box__header_content pl-3">
+        <div class="mb-2">
+          <app-locator-details-links [name]="propertyData?.name || ''" [url]="propertyData?.url || ''"
+            [streetAddress]="propertyData?.streetAddress || ''" [city]="propertyData?.city || ''"
+            [state]="propertyData?.state || ''"></app-locator-details-links>
+        </div>
+        <app-locator-details-subheading [streetAddress]="propertyData?.streetAddress || ''"
+          [city]="propertyData?.city || ''" [phone]="propertyData?.phone || ''"></app-locator-details-subheading>
+      </div>
+    </div>
+
+    <app-locator-details-favicon [role]="propertyData?.role || ''" [favorite]="propertyData?.favorite || false"
+      [phone]="phone" (toggleFav)="toggleFav($event)"></app-locator-details-favicon>
+
+    <div class="side-box__photo-box">
+      <app-locator-details-photos [photos]="propertyData?.photos.slice(0, 3)" (showGallery)="showGallery($event)">
+      </app-locator-details-photos>
+    </div>
+
+    <ng-container *ngIf="propertyData?.displayNotes">
+      <app-locator-details-notes [firstname]="agentInfo?.firstname || ''" [lastname]="agentInfo?.lastname || ''"
+        [displayNotes]="propertyData?.displayNotes || ''" [notes]="propertyData?.notes" (expand)="expandNotes()">
+      </app-locator-details-notes>
+    </ng-container>
+
+    <mat-tab-group selectedIndex="0">
+      <mat-tab label="Plans" (show)="(displayFloorplans.length > 0)">
+        <!-- Specials -->
+        <ng-container *ngIf="propertyData?.specials">
+          <app-locator-details-specials [specials]="propertyData?.specials"></app-locator-details-specials>
+        </ng-container>
+
+        <app-locator-details-floorplans [floorplans]="displayFloorplans"
+          (toggleFloorplanPhoto)="toggleFloorplanPhoto($event)"></app-locator-details-floorplans>
+      </mat-tab>
+      <mat-tab label="Overview">
+        <app-locator-details-extra-info [propertyData]="propertyData"></app-locator-details-extra-info>
+
+        <ng-container *ngIf="propertyData?.highValueAmenities.length">
+          <app-locator-details-amenities [propertyData]="propertyData" [showAllAmenities]="showAllAmenities">
+          </app-locator-details-amenities>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

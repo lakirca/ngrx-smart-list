@@ -1,0 +1,76 @@
+<div class="section-container">
+  <div class="container-options">
+    <div class="container-options-item policy">
+      <img class="small-icon" src="../../../../assets/images/bird.svg" />
+      <div class="container-options-item-text">
+        <ng-container *ngFor="let petOption of petOptions; let last = last">
+          {{ petOption }}{{ last ? ' ' : ', ' }}
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="container-options-item policy" *ngIf="propertyData?.parkingOptions.length">
+      <img class="small-icon" src="../../../../assets/images/parksign.svg" />
+      <div class="container-options-item-text">
+        <ng-container *ngFor="
+            let parkingOption of propertyData?.parkingOptions;
+            let last = last
+          ">
+          {{ parkingOption }}{{ last ? '' : ',' }}
+        </ng-container>
+        Parking
+      </div>
+    </div>
+
+    <div class="container-options-item policy" *ngIf="propertyData?.schoolsInfo">
+      <img class="small-icon" src="../../../../assets/images/alphabet.svg" />
+      <div class="container-options-item-text">
+        {{ propertyData?.schoolsInfo.district }} School District
+
+        <img src="../../../../assets/images/arrow-down-thick.svg" (click)="showSchools()" class="arrow-down"
+          *ngIf="!isSchoolsVisible" />
+      </div>
+    </div>
+
+    <div class="container-options-item expanded-item" *ngIf="propertyData?.schoolsInfo.high && isSchoolsVisible">
+      <div class="small-icon"></div>
+      <div class="container-options-item-text">
+        {{ propertyData?.schoolsInfo.high }} High School
+      </div>
+    </div>
+
+    <div class="container-options-item expanded-item" *ngIf="propertyData?.schoolsInfo.middle && isSchoolsVisible">
+      <div class="small-icon"></div>
+      <div class="container-options-item-text">
+        {{ propertyData?.schoolsInfo.middle }} Middle School
+      </div>
+    </div>
+
+    <div class="container-options-item expanded-item" *ngIf="propertyData?.schoolsInfo.elementry && isSchoolsVisible">
+      <div class="small-icon"></div>
+      <div class="container-options-item-text">
+        {{ propertyData?.schoolsInfo.elementry }} Elementary School
+      </div>
+    </div>
+
+    <div class="container-options-item">
+      <img class="small-icon" src="../../../../assets/images/receipt.svg" />
+      <div class="container-options-item-text">
+        {{ propertyData?.appFee | currency: 'USD':'symbol':'1.0-2' }}
+        App fee.
+        {{ propertyData?.adminFee | currency: 'USD':'symbol':'1.0-2' }}
+        Admin fee.
+      </div>
+    </div>
+  </div>
+
+  <div class="container-options-item policy" *ngIf="propertyData?.yearBuilt > 0">
+    <img class="small-icon" src="../../../../assets/images/shovel.svg" />
+    <div class="container-options-item-text">
+      Built {{ propertyData?.yearBuilt }}
+      <span *ngIf="propertyData?.yearRenovated > 0" class="container-options-item-text">
+        Renovated {{ propertyData?.yearRenovated }}
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="section-container">
+  <div class="container-heading">HIGH-VALUE amenities</div>
+  <div class="container-options">
+    <div class="container-options-item" *ngFor="let amenity of propertyData?.highValueAmenities">
+      <img class="small-icon" [src]="amenityImage(amenity)" />
+      <div class="container-options-item-text">{{ amenity }}</div>
+    </div>
+
+    <div class="container-options-item" style="cursor: pointer" (click)="showRemainingAmenities()"
+      *ngIf="!showAllAmenities">
+      <img class="small-icon" src="https://cdn.smartapartmentdata.com/images/svg/32/more-dots-small.svg" />
+      <div class="container-options-item-text">More</div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="showAllAmenities">
+  <div class="section-container">
+    <div class="container-heading">COMMUNITY FEATURES</div>
+    <div class="container-options">
+      <div class="container-options-item" *ngFor="let amenity of propertyData?.propertyAmenities">
+        <img class="small-icon" [src]="amenityImage(amenity)" />
+        <div class="container-options-item-text">{{ amenity }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="container-heading">UNIT OPTIONS</div>
+    <div class="container-options">
+      <div class="container-options-item" *ngFor="let amenity of propertyData?.unitAmenities">
+        <img class="small-icon" [src]="amenityImage(amenity)" />
+        <div class="container-options-item-text">{{ amenity }}</div>
+      </div>
+    </div>
+  </div>
+</ng-container>

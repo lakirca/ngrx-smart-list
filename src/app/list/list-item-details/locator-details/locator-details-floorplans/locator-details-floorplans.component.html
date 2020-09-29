@@ -1,0 +1,41 @@
+<div (click)="toggle(floorplan)" *ngFor="let floorplan of floorplans">
+  <div class="floorplans-table" [class.clickable]="floorplan.photoUrl"
+    [class.no-bottom-border]="floorplan.comments?.length">
+    <div class="floorplan-table-row">
+      <div class="floorplan-table-row-item">
+        {{ floorplan.bed }} Bed, {{ floorplan.bath }} Bath
+        {{ floorplan.den ? ' + Den' : '' }}
+      </div>
+      <div class="floorplan-table-row-item small">
+        {{ floorplan.sqft }} sqft
+      </div>
+      <img *ngIf="floorplan.photoUrl" [src]="image" class="arrow-down" />
+    </div>
+    <div class="floorplan-table-row wd">
+      <div class="floorplan-table-row-item image-text">
+        <div class="floorplan-table-row-item">
+          {{ floorplan.washerDryer }}
+        </div>
+        <!-- <div class="floorplan-table-row-item small">
+          {{ floorplan.deposit | currency: 'USD':'symbol':'1.0-2' }}
+          deposit
+        </div> -->
+      </div>
+    </div>
+    <div class="floorplan-table-row">
+      <div class="floorplan-table-row-item price" *ngIf="floorplan.price > 0">
+        {{ floorplan.price | currency: 'USD':'symbol':'1.0-2' }}
+      </div>
+      <div class="floorplan-table-row-item small"></div>
+    </div>
+  </div>
+
+  <div class="floorplans-table" *ngIf="floorplan.comments">
+    <div class="floorplan-table-row floorplan-notes">
+      {{ floorplan.comments }}
+    </div>
+  </div>
+</div>
+<div *ngIf="floorplans.length === 1" class="floorplanPhotoContainer">
+  <img class="img-box" src="{{ floorplans[0].photoUrl }}" />
+</div>

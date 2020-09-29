@@ -1,0 +1,82 @@
+.content {
+  min-height: 100%;
+}
+
+.side-box {
+  // position: relative;
+
+  &__navlink {
+    background: #1976d2;
+    height: 45px;
+    padding: 12px 10px 10px 15px;
+    cursor: pointer;
+    color: white;
+  }
+
+  &__header {
+    height: 80px;
+    z-index: 1;
+    width: 100%;
+    display: inline-block;
+    background-color: #2196f3;
+    color: white;
+    position: relative;
+
+    &_content {
+      z-index: 1;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__photo-box {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: -7px;
+  }
+}
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.wd-icon {
+  width: 18px;
+  vertical-align: top;
+}
+
+.galleryActionBar {
+  background: #1976d2;
+  padding: 15px 10px 15px 15px;
+  color: white;
+  cursor: pointer;
+}
+
+.galleryActionImg {
+  padding-right: 10px;
+  display: inline;
+}
+
+.galleryActionText {
+  display: inline;
+  vertical-align: middle;
+}
+
+.arrow-down {
+  cursor: pointer;
+  padding-left: 5px;
+  display: inline-block;
+  margin-top: -2px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+}

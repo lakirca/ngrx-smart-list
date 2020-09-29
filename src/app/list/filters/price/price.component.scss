@@ -1,0 +1,30 @@
+.slider-section {
+  display: inline-block;
+  background: white;
+  color: #2196F3;
+  border-radius: 10px;
+  font-size: 13px;
+  padding-right: 10px;
+  height: 35px;
+  border: 1px solid #1976D2;
+  width: 80%;
+}
+
+.slider {
+  width: 80%;
+  margin-right: 5px;
+}
+
+.action-section {
+  display: inline-block;
+  text-align: right;
+  font-size: 13px;
+  padding-left: 10px;
+  vertical-align: text-top;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+}
+
+.mat-slider-horizontal{
+  height: 45px;
+}

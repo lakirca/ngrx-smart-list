@@ -1,0 +1,7 @@
+<div class="slider-section">
+  <mat-slider class="slider" style="margin-top: -5px;" step="50" thumbLabel="true" #maxRentSlider></mat-slider>
+  ${{maxRentSlider.value}}
+</div>
+<div class="action-section" (click)="apply(maxRentSlider.value)">
+  DONE
+</div>

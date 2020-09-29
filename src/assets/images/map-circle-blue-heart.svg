@@ -1,0 +1,26 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71.95 83.41"
+     width="102px" height="102px">
+  <defs>
+    <style>
+      .cls-1,.cls-3{fill:none;}.cls-2{fill:#2196f3;stroke:#1976d2;stroke-width:2px;opacity:0.6;}.cls-3{stroke:#ab4d4d;stroke-width:10px;}.cls-4{fill:#ffd955;stroke:#000;stroke-miterlimit:10;stroke-width:0.72px;}
+    </style>
+  </defs>
+  <title>map-circle-fav-blue</title>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <line class="cls-1" x1="35.98" y1="11.46" x2="35.98" y2="83.41"/>
+    <line class="cls-1" y1="47.43" x2="71.95" y2="47.43"/>
+  </g>
+  <g id="Layer_2" data-name="Layer 2">
+    <circle class="cls-2" cx="35.97" cy="47.48" r="26.33"/>
+    <path class="cls-3" d="M36,13.22" transform="translate(-0.03 -1.72)"/>
+    <path class="cls-3" d="M36,31.21" transform="translate(-0.03 -1.72)"/>
+    <path class="cls-3" d="M36,67.18" transform="translate(-0.03 -1.72)"/>
+    <path class="cls-3" d="M72,49.2" transform="translate(-0.03 -1.72)"/>
+    <path class="cls-3" d="M54,49.2" transform="translate(-0.03 -1.72)"/>
+    <path class="cls-3" d="M18,49.2" transform="translate(-0.03 -1.72)"/>
+    <path class="cls-3" d="M0,49.2" transform="translate(-0.03 -1.72)"/>
+  </g>
+  <path class="cls-4"
+        d="M39.69,2.09h0A4.5,4.5,0,0,0,36,3.59a4.5,4.5,0,0,0-3.7-1.5,4.66,4.66,0,0,0-4.62,4.74h0v.12a5,5,0,0,0,1.73,3.81c1.39,1.27,5.55,5.31,6.24,6.7a.46.46,0,0,0,.46.23c.12,0,.12-.12.23-.23.69-1.39,4.85-5.43,6.24-6.82a4.47,4.47,0,0,0,1.73-3.81,4.59,4.59,0,0,0-4.62-4.74Z"
+        transform="translate(-0.03 -1.72)"/>
+</svg>

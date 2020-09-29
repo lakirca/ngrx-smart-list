@@ -1,0 +1,70 @@
+<div class="section-company">
+  <ng-container *ngIf="agentInfo?.customHeader.length">
+    {{ agentInfo?.customHeader }}
+  </ng-container>
+  <ng-container *ngIf="agentInfo?.customHeader.length === 0">
+    {{ agentInfo?.firstname + ' ' + agentInfo?.lastname }} |
+    {{ agentInfo?.company }}
+  </ng-container>
+</div>
+
+<div *ngIf="role === 'LOCATOR'" class="section-filter"
+  [class.section-filter-selected]="isEditBedMode || isEditRentMode">
+  <div class="filter-box" (click)="toggleEditRentMode()">
+    <div class="filter-title">
+      Rent
+      <img class="arrow-down" src="../../../assets/images/arrow-down-white.svg" />
+    </div>
+    <div class="filter-content">
+      {{ currentMinRent | currency: 'USD':'symbol':'1.0-2' }} -
+      {{ currentMaxRent | currency: 'USD':'symbol':'1.0-2' }}
+    </div>
+  </div>
+  <div class="filter-box" (click)="toggleEditBedMode()">
+    <div class="filter-title">
+      Bedrooms
+      <img class="arrow-down" src="../../../assets/images/arrow-down-white.svg" />
+    </div>
+    <div class="filter-content">
+      <ng-container *ngFor="let b of currentBedrooms.sort(); let last = last">
+        {{ b.toString().replace('0', 'Studio') }}{{ last ? '' : ', ' }}
+      </ng-container>
+    </div>
+  </div>
+  <div class="filter-box filter-favorite">
+    <div class="filter-title">
+      <app-list-filter-favorite (restoreList)="onRestoreList()" (toggleState)="onToggleFav()"
+        [isActive]="(layout | async).isFavSelected" [hidden]="(displayResults$ | async) === undefined">
+      </app-list-filter-favorite>
+    </div>
+  </div>
+
+  <div class="filter-body" [hidden]="!isEditRentMode">
+    <app-list-filter-price (change)="onPriceFilterChange($event)" [current]="currentMaxRent" [min]="minRent"
+      [max]="maxRent">>
+    </app-list-filter-price>
+  </div>
+
+  <div class="filter-body" [hidden]="!isEditBedMode">
+    <app-list-filter-bedroom (change)="onBedroomFilterChanged($event)" [available]="bedrooms"
+      [selected]="currentBedrooms"></app-list-filter-bedroom>
+  </div>
+</div>
+
+<div class="list-container" [class.list-container-disabled]="isEditRentMode || isEditBedMode">
+  <div class="heading-note" *ngIf="role === 'VENDOR'">
+    The stops are numbered in the order specified
+  </div>
+
+  <div *ngFor="let dataItem of items; let i = index" (click)="onItemClick(dataItem)" [id]="'p-' + i"
+    [class.list-container-item]="
+      selection?.currentSelection?.propertyID != dataItem.propertyID
+    " [class.list-container-item-selected]="
+      selection?.currentSelection?.propertyID == dataItem.propertyID
+    ">
+    <ng-container [ngSwitch]="role">
+      <app-list-items-locator-item *ngSwitchCase="'LOCATOR'" [dataItem]="dataItem"></app-list-items-locator-item>
+      <app-list-items-vendor-item *ngSwitchCase="'VENDOR'" [dataItem]="dataItem"></app-list-items-vendor-item>
+    </ng-container>
+  </div>
+</div>

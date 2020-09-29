@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<svg height="128" id="svg3276" version="1.1" width="128" xmlns="http://www.w3.org/2000/svg"
+     xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs3278"/>
+  <g id="layer1" transform="translate(0,-924.3622)">
+    <g id="g4740" transform="matrix(8,0,0,8,-4224,-4294.5352)">
+      <path
+        d="m 535.5,658.86218 0,-1 c 0,-0.554 -0.446,-1 -1,-1 l -3,0 c -0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1 l 8,0 c 0.554,0 1,-0.446 1,-1"
+        id="path4780" style="fill:none;stroke:#000000;stroke-linecap:round"/>
+      <path
+        d="m 532.5,663.36218 0,-1.10606 c 0,-1.63402 1.3306,-2.94949 2.98342,-2.94949 l 0.0331,0 c 1.65282,0 2.98343,1.31547 2.98343,2.94949 l 0,1.10606"
+        id="rect4786" style="fill:none;stroke:#000000;stroke-width:1"/>
+      <path d="m 531.5,663.86218 8,0" id="path4789"
+            style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"/>
+      <path d="m 533.5,663.86218 0,3" id="path4791"
+            style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"/>
+      <path d="m 537.5,663.86218 0,3" id="path4793"
+            style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"/>
+    </g>
+  </g>
+</svg>
