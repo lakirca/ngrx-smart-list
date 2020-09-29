@@ -60,13 +60,13 @@ import { ListMainExpandMapSwitchComponent } from './list/list-main/list-main-exp
 import { ImageBigViewComponent } from './list/image-big-view/image-big-view.component';
 import { ImageArrowComponent } from './list/image-big-view/image-arrow/image-arrow.component';
 
-import { selectionsReducer } from './store/reducers/selection.reducer';
-import { layoutReducer } from './store/reducers/layout.reducer';
-import { resultsReducer } from './store/reducers/result.reducer';
 //import { EffectsModule } from '@ngrx/effects';
 //import { ListEffects } from './state/list.effects';
 import { AccessDeniedModule } from './modules/access-denied/access-denied.module';
 import { PropertyService } from './core/services/property.service';
+import { selectionReducer } from './store/reducers/selection.reducer';
+import { layoutReducer } from './store/reducers/layout.reducer';
+import { resultReducer } from './store/reducers/result.reducer';
 //import { LoadPropertyResolver } from './list/list-item-details/load-property-resolver.service';
 
 @NgModule({
@@ -114,9 +114,9 @@ import { PropertyService } from './core/services/property.service';
     MatSlideToggleModule,
     MatTabsModule,
     StoreModule.forRoot({
-      selectionsState: selectionsReducer,
+      selectionsState: selectionReducer,
       layoutState: layoutReducer,
-      resultsState: resultsReducer,
+      resultsState: resultReducer,
     }),
     StoreDevtoolsModule.instrument({
       name: 'Smart App Dev Tool',

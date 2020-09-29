@@ -12,7 +12,7 @@ import * as LayoutActions from '../../../store/actions/layout.actions';
 import * as SelectionActions from '../../../store/actions/selection.actions';
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ILayoutState } from 'src/app/store/interfaces/ILayoutState';
+import { LayoutState } from 'src/app/store/interfaces/LayoutState';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class VendorDetailsComponent implements OnInit, OnDestroy {
   isGalleryVisible;
   showAllAmenities;
   specialClassification: string;
-  layoutState$: Observable<ILayoutState>;
+  layoutState$: Observable<LayoutState>;
 
 
   constructor(

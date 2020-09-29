@@ -14,7 +14,7 @@ import { AppState } from 'src/app/state/app.state';
 import * as LayoutActions from '../../../store/actions/layout.actions';
 import * as SelectionActions from '../../../store/actions/selection.actions';
 import { Observable } from 'rxjs';
-import { ILayoutState } from 'src/app/store/interfaces/ILayoutState';
+import { LayoutState } from 'src/app/store/interfaces/LayoutState';
 
 @Component({
   selector: 'app-list-item-details-locator-details',
@@ -35,7 +35,7 @@ export class LocatorDetailsComponent implements OnInit, OnDestroy {
   isGalleryVisible;
   displayFloorplans = [];
   showAllAmenities;
-  layoutState$: Observable<ILayoutState>;
+  layoutState$: Observable<LayoutState>;
 
 
   constructor(
