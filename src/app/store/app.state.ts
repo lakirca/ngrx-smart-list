@@ -1,10 +1,10 @@
 import { LayoutState } from './interfaces/LayoutState';
-import { ResultsState } from './interfaces/ResultsState';
+import { ResultState } from './interfaces/ResultState';
 import { SelectionState } from './interfaces/SelectionState';
 
 export class AppState {
   selectionState: SelectionState;
-  resultState: ResultsState;
+  resultState: ResultState;
   layoutState: LayoutState;
 }
 

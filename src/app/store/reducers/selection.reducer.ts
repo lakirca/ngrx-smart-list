@@ -7,16 +7,16 @@ import {
 
 import * as SelectionActions from '../actions/selection.actions';
 import { SelectionItem } from 'src/app/shared/models/selection-item.model';
-import { ISelectionsState } from '../interfaces/ISelectionState';
+import { SelectionState } from '../interfaces/SelectionState';
 
-const initialState: ISelectionsState = {
+const initialState: SelectionState = {
   previousSelection: null,
   currentSelection: null,
   selections: [],
 };
 
-const gatSelectionFeatureState = createFeatureSelector<ISelectionsState>(
-  'selectionsState'
+const gatSelectionFeatureState = createFeatureSelector<SelectionState>(
+  'selectionState'
 );
 
 export const getPreviousSelection = createSelector(
@@ -56,11 +56,11 @@ function toggleFavorite(
   return clone;
 }
 
-export const selectionsReducer = createReducer<ISelectionsState>(
+export const selectionReducer = createReducer<SelectionState>(
   initialState,
   on(
     SelectionActions.saveSelections,
-    (state, action): ISelectionsState => {
+    (state, action): SelectionState => {
       return {
         ...state,
         previousSelection: null,
@@ -71,7 +71,7 @@ export const selectionsReducer = createReducer<ISelectionsState>(
   ),
   on(
     SelectionActions.unselect,
-    (state): ISelectionsState => {
+    (state): SelectionState => {
       return {
         ...state,
         previousSelection: state.currentSelection,

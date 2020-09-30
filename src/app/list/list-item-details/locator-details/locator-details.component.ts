@@ -10,11 +10,10 @@ import { ListService } from '../../../core/services/list.service';
 import { LoggingService } from '../../../core/services/LoggingService';
 import { isNotNullOrUndefined, PropertyModel } from 'src/app/shared/_shared';
 import { GalleryEvent } from './models/interfaces';
-import { AppState } from 'src/app/state/app.state';
-import * as LayoutActions from '../../../store/actions/layout.actions';
-import * as SelectionActions from '../../../store/actions/selection.actions';
 import { Observable } from 'rxjs';
-import { ILayoutState } from 'src/app/store/interfaces/ILayoutState';
+import { LayoutState } from 'src/app/store/interfaces/LayoutState';
+import { AppState } from 'src/app/store/app.state';
+import { LayoutActions, SelectionActions } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-list-item-details-locator-details',
@@ -35,8 +34,7 @@ export class LocatorDetailsComponent implements OnInit, OnDestroy {
   isGalleryVisible;
   displayFloorplans = [];
   showAllAmenities;
-  layoutState$: Observable<ILayoutState>;
-
+  layoutState$: Observable<LayoutState>;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,20 +43,20 @@ export class LocatorDetailsComponent implements OnInit, OnDestroy {
     private loggingService: LoggingService,
     private listService: ListService,
     private store: Store<AppState>
-  ) { }
+  ) {}
 
   get phone() {
     return this.propertyData && this.propertyData.phone
       ? `tel:${this.propertyData.phone
-        .replace('(', '')
-        .replace('-', '')
-        .replace(')', '')
-        .trim()}`
+          .replace('(', '')
+          .replace('-', '')
+          .replace(')', '')
+          .trim()}`
       : '';
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
   ngOnInit() {
@@ -66,9 +64,8 @@ export class LocatorDetailsComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.route.params
-        .pipe(
-          switchMap(params => this.route.params))
-        .subscribe(params => {
+        .pipe(switchMap((params) => this.route.params))
+        .subscribe((params) => {
           this.propertyID = +params.propertyID;
           this.propertyService.load(
             this.listService.ListID,
@@ -134,13 +131,15 @@ export class LocatorDetailsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.layoutState$
         .pipe(
-          filter(item =>
-            (item !== null || item !== undefined) && (item.index !== null || item.index !== undefined)
+          filter(
+            (item) =>
+              (item !== null || item !== undefined) &&
+              (item.index !== null || item.index !== undefined)
             //!isNullOrUndefined(item) && !isNullOrUndefined(item.index)
           )
         )
 
-        .subscribe(item => (this.isGalleryVisible = item.index >= 0))
+        .subscribe((item) => (this.isGalleryVisible = item.index >= 0))
     );
   }
 
@@ -149,7 +148,9 @@ export class LocatorDetailsComponent implements OnInit, OnDestroy {
       this.listService.subscription
         .pipe(isNotNullOrUndefined())
         .subscribe(() => {
-          this.store.dispatch(SelectionActions.select({ properyID: this.propertyID }));
+          this.store.dispatch(
+            SelectionActions.select({ properyID: this.propertyID })
+          );
           this.agentInfo = this.listService.AgentInfo;
         })
     );
@@ -173,7 +174,12 @@ export class LocatorDetailsComponent implements OnInit, OnDestroy {
     if (data.url) data.url = data.url.replace('/micros/', '/standard/');
     else data.url = this.propertyData.photos[0];
 
-    this.store.dispatch(LayoutActions.displayPhoto({ selectedImageUrl: data.url, images: this.propertyData.photos }))
+    this.store.dispatch(
+      LayoutActions.displayPhoto({
+        selectedImageUrl: data.url,
+        images: this.propertyData.photos,
+      })
+    );
   }
 
   toggleFloorplanPhoto(floorplan) {
@@ -190,8 +196,8 @@ export class LocatorDetailsComponent implements OnInit, OnDestroy {
       this.listService
         .toggleFavorite(this.propertyID, this.propertyData.favorite)
         .subscribe(
-          () => { },
-          error => {
+          () => {},
+          (error) => {
             this.loggingService.logException(
               'ListItemDetailsComponent.toggleFav()',
               '',

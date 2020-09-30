@@ -5,11 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/publishLast';
-
-import { AppState } from 'src/app/state/app.state';
-import * as SelectionActions from 'src/app/store/actions/selection.actions';
-import * as ResultsActions from 'src/app/store/actions/result.actions'
 import { LoggingService } from './LoggingService';
+import { AppState } from 'src/app/store/app.state';
+import { SelectionActions, ResultActions } from '../../store/actions/index';
 
 @Injectable()
 export class ListService {
@@ -50,7 +48,7 @@ export class ListService {
     private http: HttpClient,
     private loggingService: LoggingService,
     private store: Store<AppState>
-  ) { }
+  ) {}
 
   private fetch(listID: number, token: string) {
     this.listID = listID;
@@ -58,8 +56,7 @@ export class ListService {
 
     return this.http
       .get(
-        `${this.baseUrl}/listItems.aspx?listID=${this.listID}&token=${this.token
-        }&receipt=${this.receipt}`
+        `${this.baseUrl}/listItems.aspx?listID=${this.listID}&token=${this.token}&receipt=${this.receipt}`
       )
       .publishLast()
       .refCount();
@@ -68,11 +65,20 @@ export class ListService {
   public toggleFavorite(propertyID: number, isFavorite: boolean) {
     if (isFavorite) {
       this.store.dispatch(SelectionActions.favorite({ propertyID }));
-      this.store.dispatch(ResultsActions.updateField({ propertyID: propertyID, dataField: { name: 'favorite', value: true } }));
-    }
-    else {
+      this.store.dispatch(
+        ResultActions.updateField({
+          propertyID,
+          dataField: { name: 'favorite', value: true },
+        })
+      );
+    } else {
       this.store.dispatch(SelectionActions.unfavorite({ propertyID }));
-      this.store.dispatch(ResultsActions.updateField({ propertyID: propertyID, dataField: { name: 'favorite', value: false } }));
+      this.store.dispatch(
+        ResultActions.updateField({
+          propertyID,
+          dataField: { name: 'favorite', value: false },
+        })
+      );
     }
 
     this.isDirty = true;
@@ -80,8 +86,8 @@ export class ListService {
     const payload = {
       listID: this.listID,
       token: this.token,
-      propertyID: propertyID,
-      isFavorite: isFavorite,
+      propertyID,
+      isFavorite,
     };
 
     return this.http.post(
@@ -104,16 +110,15 @@ export class ListService {
       return;
     }
 
-    this.fetch(listID, token)
-      .subscribe(
-        packet => {
-          this.isDirty = false;
-          this.data = packet;
-          this.publish(this.data);
-        },
-        error => {
-          this.loggingService.logException('ListService.load()', '', error);
-        }
-      );
+    this.fetch(listID, token).subscribe(
+      (packet) => {
+        this.isDirty = false;
+        this.data = packet;
+        this.publish(this.data);
+      },
+      (error) => {
+        this.loggingService.logException('ListService.load()', '', error);
+      }
+    );
   }
 }

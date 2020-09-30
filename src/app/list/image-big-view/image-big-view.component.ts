@@ -3,8 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { AppState } from '../../state/app.state';
+import { AppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'app-image-big-view',

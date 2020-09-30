@@ -4,15 +4,13 @@ import {
   createFeatureSelector,
   createSelector,
 } from '@ngrx/store';
+import { ResultActions } from '../actions';
 
-import * as ResultsActions from '../actions/result.actions';
-import {
-  IResultsFilter,
-  IResultState,
-  IDataField,
-} from '../interfaces/IResultState';
+import { DataField } from '../interfaces/DataField';
+import { ResultFilter } from '../interfaces/ResultFilter';
+import { ResultState } from '../interfaces/ResultState';
 
-const initialState: IResultState = {
+const initialState: ResultState = {
   filters: null,
   unfiltered: [],
   filtered: [],
@@ -26,8 +24,8 @@ const initialState: IResultState = {
   },
 };
 
-const getSelectionFeatureState = createFeatureSelector<IResultState>(
-  'resultsState'
+const getSelectionFeatureState = createFeatureSelector<ResultState>(
+  'resultState'
 );
 
 export const getLoadedResult = createSelector(
@@ -45,18 +43,8 @@ export const getAgentInfo = createSelector(
   (state) => state.agentInfo
 );
 
-// export const getDisplayResults = createSelector(
-//     getSelectionFeatureState,
-//     state => state.DisplayResults()
-// )
-
-// export const getFavirite = createSelector(
-//     getSelectionFeatureState,
-//     state => state.unfiltered
-// )
-
 function getFilteredSelections(
-  filters: IResultsFilter,
+  filters: ResultFilter,
   results: Array<any>
 ): Array<object> {
   if (!results) return;
@@ -88,7 +76,7 @@ function getFilteredSelections(
 
 function updateDataField(
   dataset: Array<object>,
-  data: IDataField,
+  data: DataField,
   propertyID: number
 ) {
   const h = [].concat(dataset);
@@ -102,9 +90,9 @@ function updateDataField(
   return h;
 }
 
-export const resultsReducer = createReducer<IResultState>(
+export const resultReducer = createReducer<ResultState>(
   initialState,
-  on(ResultsActions.loadResultsSuccess, (state, action): any => {
+  on(ResultActions.loadResultsSuccess, (state, action): any => {
     return {
       ...state,
       filters: null,
@@ -115,7 +103,7 @@ export const resultsReducer = createReducer<IResultState>(
       role: action.payload.role,
     };
   }),
-  on(ResultsActions.loadResultsFailure, (state, action) => {
+  on(ResultActions.loadResultsFailure, (state, action) => {
     return {
       ...state,
       filters: null,
@@ -125,8 +113,8 @@ export const resultsReducer = createReducer<IResultState>(
     };
   }),
   on(
-    ResultsActions.filter,
-    (state, action): IResultState => {
+    ResultActions.filter,
+    (state, action): ResultState => {
       return {
         ...state,
         filters: { ...state.filters, ...action.filters },
@@ -134,7 +122,7 @@ export const resultsReducer = createReducer<IResultState>(
       };
     }
   ),
-  on(ResultsActions.save, (state, action) => {
+  on(ResultActions.save, (state, action) => {
     return {
       ...state,
       filters: null,
@@ -144,7 +132,7 @@ export const resultsReducer = createReducer<IResultState>(
       agentInfo: action.agentInfo,
     };
   }),
-  on(ResultsActions.updateField, (state, action) => {
+  on(ResultActions.updateField, (state, action) => {
     if (!action.dataField || action.propertyID <= 0) return { ...state };
     const filtered = updateDataField(
       state.filtered,
@@ -162,12 +150,12 @@ export const resultsReducer = createReducer<IResultState>(
       unfiltered: unfiltered,
     };
   })
-  // on(ResultsActions.loadResult, (state) => {
+  // on(ResultActions.loadResult, (state) => {
   //     return {
   //         ...state
   //     }
   // }),
-  // on(ResultsActions.loadResultSuccess, (state, action) => {
+  // on(ResultActions.loadResultSuccess, (state, action) => {
   //     return {
   //         ...state,
   //         filters: null,
@@ -178,7 +166,7 @@ export const resultsReducer = createReducer<IResultState>(
   //         role: action.payload.role
   //     }
   // }),
-  // on(ResultsActions.loadResultError, (state, action) => {
+  // on(ResultActions.loadResultError, (state, action) => {
   //     return {
   //         ...state,
   //         filters: null,

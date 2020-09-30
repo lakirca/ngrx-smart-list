@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ResultsState } from '../interfaces/ResultsState';
+import { ResultsState } from '../interfaces/ResultState';
 
 const getResultFeatureState = createFeatureSelector<any>('resultState');
 

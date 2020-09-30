@@ -7,13 +7,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { isNotNullOrUndefined } from 'src/app/shared/_shared';
 import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
-import * as LayoutActions from '../../../store/actions/layout.actions';
-import * as SelectionActions from '../../../store/actions/selection.actions';
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ILayoutState } from 'src/app/store/interfaces/ILayoutState';
-
+import { LayoutState } from 'src/app/store/interfaces/LayoutState';
+import { AppState } from 'src/app/store/app.state';
+import { LayoutActions, SelectionActions } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-list-item-details-vendor-details',
@@ -33,8 +31,7 @@ export class VendorDetailsComponent implements OnInit, OnDestroy {
   isGalleryVisible;
   showAllAmenities;
   specialClassification: string;
-  layoutState$: Observable<ILayoutState>;
-
+  layoutState$: Observable<LayoutState>;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,10 +40,10 @@ export class VendorDetailsComponent implements OnInit, OnDestroy {
     private propertyService: PropertyService,
     private listService: ListService,
     private store: Store<AppState>
-  ) { }
+  ) {}
 
   ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
   ngOnInit() {
@@ -54,9 +51,8 @@ export class VendorDetailsComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.route.params
-        .pipe(
-          switchMap(params => this.route.params))
-        .subscribe(params => {
+        .pipe(switchMap((params) => this.route.params))
+        .subscribe((params) => {
           this.propertyID = +params.propertyID;
           this.propertyService.load(
             this.listService.ListID,
@@ -64,7 +60,7 @@ export class VendorDetailsComponent implements OnInit, OnDestroy {
             this.listService.Token
           );
         })
-    )
+    );
 
     // todo: move this to a route resolver
     if (!this.listService || !this.listService.IsReady) {
@@ -126,20 +122,20 @@ export class VendorDetailsComponent implements OnInit, OnDestroy {
             this.expandMgmt();
           }
         })
-    )
-  };
+    );
+  }
 
   private loadGallery() {
     this.subscriptions.push(
       this.layoutState$
         .pipe(
-          filter(item =>
-            (item !== null || item !== undefined) && (item.index !== null || item.index !== undefined)
+          filter(
+            (item) =>
+              (item !== null || item !== undefined) &&
+              (item.index !== null || item.index !== undefined)
           )
         )
-        .subscribe(item =>
-          (this.isGalleryVisible = item.index >= 0)
-        )
+        .subscribe((item) => (this.isGalleryVisible = item.index >= 0))
     );
   }
 
@@ -148,7 +144,9 @@ export class VendorDetailsComponent implements OnInit, OnDestroy {
       this.listService.subscription
         .pipe(isNotNullOrUndefined())
         .subscribe(() => {
-          this.store.dispatch(SelectionActions.select({ properyID: this.propertyID }));
+          this.store.dispatch(
+            SelectionActions.select({ properyID: this.propertyID })
+          );
         })
     );
   }
@@ -175,7 +173,12 @@ export class VendorDetailsComponent implements OnInit, OnDestroy {
     if (url) url = url.replace('/micros/', '/standard/');
     else url = this.propertyData.photos[0];
 
-    this.store.dispatch(LayoutActions.displayPhoto({ selectedImageUrl: url, images: this.propertyData.photos }))
+    this.store.dispatch(
+      LayoutActions.displayPhoto({
+        selectedImageUrl: url,
+        images: this.propertyData.photos,
+      })
+    );
     this.initAlbum();
   }
 

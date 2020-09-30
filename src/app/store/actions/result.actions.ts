@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-
-import { IResultsFilter, IDataField } from '../interfaces/IResultState';
+import { DataField } from '../interfaces/DataField';
+import { ResultFilter } from '../interfaces/ResultFilter';
 
 export const save = createAction(
   '[Result Action] Save Results',
@@ -13,12 +13,12 @@ export const save = createAction(
 
 export const filter = createAction(
   '[Result Action] Results Filter',
-  props<{ filters: IResultsFilter }>()
+  props<{ filters: ResultFilter }>()
 );
 
 export const updateField = createAction(
   '[Result Action] Update Property In Item',
-  props<{ propertyID: number; dataField: IDataField }>()
+  props<{ propertyID: number; dataField: DataField }>()
 );
 
 export const loadResults = createAction(

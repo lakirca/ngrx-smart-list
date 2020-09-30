@@ -31,9 +31,3 @@ export const unfavorite = createAction(
     '[Selection Action] Unfavorite',
     props<{ propertyID: number }>()
 )
-
-export interface ISelectionsAction {
-    type: string;
-    propertyID?: number;
-    selections?: Array<any>;
-}

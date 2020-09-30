@@ -1,25 +1,28 @@
-import { Component, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  HostListener,
+} from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Title } from '@angular/platform-browser';
-
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import { filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
-import * as ResultsActions from '../../store/actions/result.actions';
-import { AppState } from '../../state/app.state';
 import { isNotNullOrUndefined, XS_SCREEN } from 'src/app/shared/_shared';
-import * as LayoutActions from '../../store/actions/layout.actions';
 import { MapItemsComponent } from '../list-map/map-items.component';
 import { animationShow } from './configs/animations';
 import { PropertyService } from 'src/app/core/services/property.service';
 import { ListService } from 'src/app/core/services/list.service';
 import { NgxGalleryImage } from 'src/app/list/list-main/models/ngx-gallery.model';
-import { ISelectionsState } from 'src/app/store/interfaces/ISelectionState';
-import { ILayoutState } from 'src/app/store/interfaces/ILayoutState';
+import { SelectionState } from 'src/app/store/interfaces/SelectionState';
+import { LayoutState } from 'src/app/store/interfaces/LayoutState';
+import { AppState } from 'src/app/store/app.state';
+import { LayoutActions, ResultActions } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-list-main',
@@ -47,8 +50,8 @@ export class ListMainComponent implements OnInit, OnDestroy {
   mapOpened = false;
   //results$: Observable<any>;
   //error$: Observable<string>;
-  selectionState$: Observable<ISelectionsState>;
-  layoutState$: Observable<ILayoutState>;
+  selectionState$: Observable<SelectionState>;
+  layoutState$: Observable<LayoutState>;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,8 +60,7 @@ export class ListMainComponent implements OnInit, OnDestroy {
     private listService: ListService,
     private propertyService: PropertyService,
     private title: Title
-
-  ) { }
+  ) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -90,12 +92,12 @@ export class ListMainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
   scrollToTop() {
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         const contentContainer =
           <any>(
@@ -108,7 +110,7 @@ export class ListMainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.selectionState$ = this.store.select('selectionsState');
+    this.selectionState$ = this.store.select('selectionState');
     this.layoutState$ = this.store.select('layoutState');
 
     this.manageSlider(window.innerWidth);
@@ -116,55 +118,56 @@ export class ListMainComponent implements OnInit, OnDestroy {
     this.loadList();
 
     this.subscriptions.push(
-      this.layoutState$
-        .subscribe(item => {
-          if (item && item.subsystem === 'map' && item.message === 'load-complete') {
-            this.onMapLoaded();
-          }
+      this.layoutState$.subscribe((item) => {
+        if (
+          item &&
+          item.subsystem === 'map' &&
+          item.message === 'load-complete'
+        ) {
+          this.onMapLoaded();
+        }
 
-          if (item && item.subsystem === 'photo-gallery' && item.message === 'close') {
-            this.hideGallery();
-          }
+        if (
+          item &&
+          item.subsystem === 'photo-gallery' &&
+          item.message === 'close'
+        ) {
+          this.hideGallery();
+        }
 
-          if (!item || item.index == null) return;
+        if (!item || item.index == null) return;
 
-          if (item.index < 0) {
-            this.showAlbum = false;
-            this.showMap = true;
-            return;
-          }
+        if (item.index < 0) {
+          this.showAlbum = false;
+          this.showMap = true;
+          return;
+        }
 
-          this.showWelcome = 'shown';
-          this.showAlbum = true;
-          this.showMap = false;
-        })
+        this.showWelcome = 'shown';
+        this.showAlbum = true;
+        this.showMap = false;
+      })
     );
 
     this.galleryImages = [];
     this.subscriptions.push(
       this.propertyService.subscription
-        .pipe(filter(data =>
-          data && data.photos && data.photos.length
-        ))
+        .pipe(filter((data) => data && data.photos && data.photos.length))
         .subscribe((data: any) => {
           this.configureGallery(data.photos);
         })
-    )
+    );
 
     this.subscriptions.push(
       this.selectionState$
-        .pipe(
-          filter(
-            item =>
-              item !== null && item.currentSelection !== null
-          ))
-        .subscribe(item => {
-          console.log(item)
+        .pipe(filter((item) => item !== null && item.currentSelection !== null))
+        .subscribe((item) => {
+          console.log(item);
           this.router.navigate([item.currentSelection.propertyID], {
             relativeTo: this.route,
           });
         })
-    )
+    );
   }
 
   onToggle(opened: boolean) {
@@ -199,7 +202,7 @@ export class ListMainComponent implements OnInit, OnDestroy {
 
   private configureGallery(photos) {
     this.galleryImages = [];
-    photos.forEach(url => {
+    photos.forEach((url) => {
       this.galleryImages = this.galleryImages.concat({
         small: url.replace('/standard/', '/micros/'),
         medium: url.replace('/standard/', '/previews/'),
@@ -228,11 +231,13 @@ export class ListMainComponent implements OnInit, OnDestroy {
           if (data.error) this.router.navigate(['/access-denied']);
 
           this.title.setTitle(data.agentInfo.company);
-          this.store.dispatch(ResultsActions.save({
-            results: data.records,
-            showContactInfo: data.showContactInfo,
-            agentInfo: data.agentInfo
-          }));
+          this.store.dispatch(
+            ResultActions.save({
+              results: data.records,
+              showContactInfo: data.showContactInfo,
+              agentInfo: data.agentInfo,
+            })
+          );
           this.store.dispatch(LayoutActions.mapResetZoom());
         })
     );

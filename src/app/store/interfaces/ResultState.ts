@@ -1,14 +1,13 @@
 import { AgentInfo } from './AgentInfo';
-import { ResultsFilter } from './ResultsFilter';
+import { ResultFilter } from './ResultFilter';
 
-export interface ResultsState {
+export interface ResultState {
   showContactInfo: boolean;
   agentInfo: AgentInfo;
-  filters: ResultsFilter;
+  filters: ResultFilter;
   unfiltered: Array<object>;
   filtered: Array<object>;
   role?: string;
   error: string;
   DisplayResults(): Array<object>;
-
 }

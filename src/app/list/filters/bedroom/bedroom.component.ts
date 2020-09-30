@@ -1,13 +1,20 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-
-import * as ResultsActions from '../../../store/actions/result.actions';
-import { AppState } from 'src/app/state/app.state';
+import { ResultActions } from 'src/app/store/actions';
+import { AppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'app-list-filter-bedroom',
   templateUrl: './bedroom.component.html',
-  styleUrls: ['./bedroom.component.scss']
+  styleUrls: ['./bedroom.component.scss'],
 })
 export class ListFilterBedroomComponent implements OnInit, OnChanges {
   allAvailableOptions = [];
@@ -17,12 +24,9 @@ export class ListFilterBedroomComponent implements OnInit, OnChanges {
   @Input() available;
   @Input() selected;
 
-  constructor(
-    private store: Store<AppState>
-  ) { }
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if ('available' in changes && this.changed.length === 0) {
@@ -37,7 +41,7 @@ export class ListFilterBedroomComponent implements OnInit, OnChanges {
 
     if (checked) {
       event.target.classList.remove('selected');
-      this.changed = this.changed.filter(e => e !== bedroom);
+      this.changed = this.changed.filter((e) => e !== bedroom);
     } else {
       event.target.classList.add('selected');
       this.changed.push(bedroom);
@@ -45,7 +49,9 @@ export class ListFilterBedroomComponent implements OnInit, OnChanges {
   }
 
   applyBedroomFilters() {
-    this.store.dispatch(ResultsActions.filter({ filters: { bedrooms: this.changed } }));
+    this.store.dispatch(
+      ResultActions.filter({ filters: { bedrooms: this.changed } })
+    );
     this.change.emit(this.changed);
   }
 }

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { LayoutActions } from 'src/app/store/actions';
+import { AppState } from 'src/app/store/app.state';
 
 import { PropertyService } from '../../core/services/property.service';
-import * as LayoutActions from '../../store/actions/layout.actions';
-import { AppState } from 'src/app/state/app.state';
 
 @Component({
   selector: 'app-list-item-gallery',
@@ -17,7 +17,7 @@ export class ListItemGalleryComponent implements OnInit, OnDestroy {
   constructor(
     private propertyService: PropertyService,
     private store: Store<AppState>
-  ) { }
+  ) {}
 
   ngOnDestroy() {
     this.property$.unsubscribe();
@@ -34,11 +34,11 @@ export class ListItemGalleryComponent implements OnInit, OnDestroy {
   }
 
   showGallery(url) {
-    this.store.dispatch(LayoutActions.displayPhoto(
-      {
+    this.store.dispatch(
+      LayoutActions.displayPhoto({
         selectedImageUrl: url.replace('/previews/', '/standard/'),
-        images: this.propertyData.photos
-      }
-    ));
+        images: this.propertyData.photos,
+      })
+    );
   }
 }

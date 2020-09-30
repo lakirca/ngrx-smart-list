@@ -1,9 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-
-import { AppState } from 'src/app/state/app.state';
-
-import * as ResultsActions from '../../../store/actions/result.actions';
+import { ResultActions } from 'src/app/store/actions';
+import { AppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'app-list-filter-price',
@@ -18,11 +25,9 @@ export class ListFilterPriceComponent implements OnInit, OnChanges {
   @Output() change = new EventEmitter();
   @ViewChild('maxRentSlider', { static: true }) slider;
 
-  constructor(
-    private store: Store<AppState>
-  ) { }
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if ('max' in changes) {
@@ -33,7 +38,7 @@ export class ListFilterPriceComponent implements OnInit, OnChanges {
   }
 
   apply(max: number) {
-    this.store.dispatch(ResultsActions.filter({ filters: { maxPrice: max } }))
+    this.store.dispatch(ResultActions.filter({ filters: { maxPrice: max } }));
     this.change.emit(max);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store'
+import { AppState } from 'src/app/store/app.state';
 
-import { AppState } from 'src/app/state/app.state';
 import { ListService } from '../../core/services/list.service';
 
 @Component({

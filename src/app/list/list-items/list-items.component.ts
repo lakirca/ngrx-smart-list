@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -6,16 +13,18 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 
-import * as SelectionActions from '../../store/actions/selection.actions';
-import * as LayoutActions from '../../store/actions/layout.actions';
-import * as ResultsActions from '../../store/actions/result.actions';
-import { AppState } from '../../state/app.state';
 import { isNotNullOrUndefined } from 'src/app/shared/_shared';
-import { IResultsFilter, IResultState } from 'src/app/store/interfaces/IResultState';
 import { ListService } from 'src/app/core/services/list.service';
-import { ISelectionsState } from 'src/app/store/interfaces/ISelectionState';
-import { ILayoutState } from 'src/app/store/interfaces/ILayoutState';
-
+import { LayoutState } from 'src/app/store/interfaces/LayoutState';
+import { ResultFilter } from 'src/app/store/interfaces/ResultFilter';
+import { ResultState } from 'src/app/store/interfaces/ResultState';
+import { SelectionState } from 'src/app/store/interfaces/SelectionState';
+import { AppState } from 'src/app/store/app.state';
+import {
+  LayoutActions,
+  ResultActions,
+  SelectionActions,
+} from 'src/app/store/actions';
 
 @Component({
   selector: 'app-list-items',
@@ -42,9 +51,9 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
   currentMinRent = 0;
   currentBedrooms = [];
   private _unsubscribe$ = new Subject<void>();
-  selectionState$: Observable<ISelectionsState>;
-  resultsState$: Observable<IResultState>;
-  layoutState$: Observable<ILayoutState>;
+  selectionState$: Observable<SelectionState>;
+  resultsState$: Observable<ResultState>;
+  layoutState$: Observable<LayoutState>;
 
   constructor(
     private router: Router,
@@ -52,39 +61,35 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     private store: Store<AppState>,
     private cdRef: ChangeDetectorRef,
     private listService: ListService
-  ) { }
+  ) {}
 
   ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
   get layout() {
-    return this.layoutState$;//this.store.select('layoutState');
+    return this.layoutState$; //this.store.select('layoutState');
   }
 
   get displayResults$() {
-    return this.store
-      .select('resultsState')
-      .pipe(
-        isNotNullOrUndefined(),
-        map(state =>
-          state.DisplayResults().find((f: any) => f.favorite === true)
-        )
-      );
+    return this.store.select('resultState').pipe(
+      isNotNullOrUndefined(),
+      map((state) =>
+        state.DisplayResults().find((f: any) => f.favorite === true)
+      )
+    );
   }
 
   ngOnInit() {
     this.layoutState$ = this.store.select('layoutState');
-    this.selectionState$ = this.store.select('selectionsState');
-    this.resultsState$ = this.store.select('resultsState')
+    this.selectionState$ = this.store.select('selectionState');
+    this.resultsState$ = this.store.select('resultState');
 
     this.load();
 
     this.layoutState$
       .pipe(takeUntil(this._unsubscribe$))
-      .subscribe(
-        state => this.isFavSelected = state.isFavSelected
-      );
+      .subscribe((state) => (this.isFavSelected = state.isFavSelected));
   }
 
   ngAfterViewInit() {
@@ -92,12 +97,12 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   restoreScrollPosition() {
-    this.route.fragment.subscribe(f => {
+    this.route.fragment.subscribe((f) => {
       if (!f) return;
 
       const pID = +f.replace('p-', '');
       const OFFSET = 2;
-      let index = +this.items.findIndex(r => r.propertyID === pID) - OFFSET;
+      let index = +this.items.findIndex((r) => r.propertyID === pID) - OFFSET;
       if (index < 0) index = 0;
 
       const element = document.querySelector('#p-' + index);
@@ -110,25 +115,21 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.push(
       this.selectionState$
         .pipe(isNotNullOrUndefined())
-        .subscribe(
-          selections => this.selection = selections
-        )
-    )
+        .subscribe((selections) => (this.selection = selections))
+    );
     this.subscriptions.push(
-      this.resultsState$
-        .pipe(isNotNullOrUndefined())
-        .subscribe(item => {
-          this.items = item.DisplayResults();
-          this.cdRef.detectChanges();
+      this.resultsState$.pipe(isNotNullOrUndefined()).subscribe((item) => {
+        this.items = item.DisplayResults();
+        this.cdRef.detectChanges();
 
-          this.updateFilterOptions(item.unfiltered);
+        this.updateFilterOptions(item.unfiltered);
 
-          this.currentBedrooms = this.bedrooms;
-          this.currentMaxRent = this.maxRent;
-          this.currentMinRent = this.minRent;
-          if (item.filters) this.updateFilterLabels(item.filters);
-        })
-    )
+        this.currentBedrooms = this.bedrooms;
+        this.currentMaxRent = this.maxRent;
+        this.currentMinRent = this.minRent;
+        if (item.filters) this.updateFilterLabels(item.filters);
+      })
+    );
     this.subscriptions.push(
       this.listService.subscription
         .pipe(isNotNullOrUndefined())
@@ -144,8 +145,8 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.minRent = 0;
     this.minRent = Number.MAX_SAFE_INTEGER;
 
-    results.map(record => {
-      record.floorplans.map(f => {
+    results.map((record) => {
+      record.floorplans.map((f) => {
         if (f.price > this.maxRent) this.maxRent = f.price;
         if (f.price < this.minRent) this.minRent = f.price;
         if (!this.bedrooms.includes(f.bedrooms))
@@ -154,7 +155,7 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  updateFilterLabels(filters: IResultsFilter) {
+  updateFilterLabels(filters: ResultFilter) {
     if (filters.bedrooms) this.currentBedrooms = filters.bedrooms;
     if (filters.maxPrice) this.currentMaxRent = filters.maxPrice;
   }
@@ -193,16 +194,22 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router
       .navigate([dataItem.propertyID], { relativeTo: this.route })
       .then(() => {
-        this.store.dispatch(SelectionActions.select({ properyID: dataItem.propertyID }))
+        this.store.dispatch(
+          SelectionActions.select({ properyID: dataItem.propertyID })
+        );
       });
   }
 
   onRestoreList() {
-    this.store.dispatch(ResultsActions.filter({ filters: { favorite: false } }))
+    this.store.dispatch(ResultActions.filter({ filters: { favorite: false } }));
   }
 
   onToggleFav() {
-    this.store.dispatch(LayoutActions.toggleFavFilter({ isFavSelected: !this.isFavSelected }));
-    this.store.dispatch(ResultsActions.filter({ filters: { favorite: this.isFavSelected } }))
+    this.store.dispatch(
+      LayoutActions.toggleFavFilter({ isFavSelected: !this.isFavSelected })
+    );
+    this.store.dispatch(
+      ResultActions.filter({ filters: { favorite: this.isFavSelected } })
+    );
   }
 }
