@@ -222,6 +222,7 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
           SelectionActions.select({ properyID: dataItem.propertyID })
         );
       });
+    this.store.subscribe(console.log);
   }
 
   onRestoreList(): void {
@@ -235,5 +236,7 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 }

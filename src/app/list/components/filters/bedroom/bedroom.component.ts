@@ -28,18 +28,19 @@ export class ListFilterBedroomComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if ('available' in changes && this.changed.length === 0) {
       this.allAvailableOptions = changes.available.currentValue;
       this.changed = changes.selected.currentValue;
     }
   }
 
-  onToggle(bedroom, event) {
+  onToggle(bedroom, event): void {
     const checked = event.target.classList.contains('selected');
-    if (checked && this.changed.length === 1) return;
+    if (checked && this.changed.length === 1) {
+      return;
+    }
 
-    console.log(bedroom);
     if (checked) {
       event.target.classList.remove('selected');
       this.changed = this.changed.filter((e) => e !== bedroom);

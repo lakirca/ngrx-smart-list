@@ -15,47 +15,6 @@ const initialState: SelectionState = {
   selections: [],
 };
 
-const gatSelectionFeatureState = createFeatureSelector<SelectionState>(
-  'selectionState'
-);
-
-export const getPreviousSelection = createSelector(
-  gatSelectionFeatureState,
-  (state) => state.previousSelection
-);
-
-// export const getCurrentSelection = createSelector(
-//     gatSelectionFeatureState,
-//     state => state.currentSelection
-// );
-
-// export const getSelections = createSelector(
-//     gatSelectionFeatureState,
-//     state => state.selections
-// );
-
-// export const getUnselect = createSelector(
-//     gatSelectionFeatureState,
-//     state => state.selections.slice()
-// );
-
-// export const getSelectionSlice = createSelector(
-//     gatSelectionFeatureState,
-//     state => state
-// );
-
-function toggleFavorite(
-  propertyID: number,
-  isFav: boolean,
-  selections: Array<SelectionItem>
-): Array<SelectionItem> {
-  const clone = selections.slice();
-  const item = clone.find((f) => f.propertyID === propertyID);
-  if (item) item.favorite = isFav;
-
-  return clone;
-}
-
 export const selectionReducer = createReducer<SelectionState>(
   initialState,
   on(
@@ -109,3 +68,15 @@ export const selectionReducer = createReducer<SelectionState>(
     };
   })
 );
+
+function toggleFavorite(
+  propertyID: number,
+  isFav: boolean,
+  selections: Array<SelectionItem>
+): Array<SelectionItem> {
+  const clone = selections.slice();
+  const item = clone.find((f) => f.propertyID === propertyID);
+  if (item) item.favorite = isFav;
+
+  return clone;
+}

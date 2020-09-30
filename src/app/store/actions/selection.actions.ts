@@ -6,16 +6,7 @@ export const saveSelections = createAction(
     '[Selection Action] Save Selection',
     props<{ selections: Array<SelectionItem> }>()
 )
-// export const loadProperty = createAction(
-//     'Load Property',
-//     props<{ listID: number, propoertyID: number, token: string }>()
-// )
-// export const loadPropertySuccess = createAction(
-//     'Load Property Success',
-// )
-// export const loadPropertyError = createAction(
-//     'Load Property Error',
-// )
+
 export const select = createAction(
     '[Selection Action] Select',
     props<{ properyID: number }>()

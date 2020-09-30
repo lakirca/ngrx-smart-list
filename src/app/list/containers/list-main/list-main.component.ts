@@ -101,7 +101,7 @@ export class ListMainComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(
       ResultActions.loadResults({
         listID: 5363950,
@@ -109,7 +109,7 @@ export class ListMainComponent implements OnInit, OnDestroy {
         receipt: undefined,
       })
     );
-    
+
     this.selectionState$ = this.store.select('selectionState');
     this.layoutState$ = this.store.select('layoutState');
 
@@ -134,7 +134,9 @@ export class ListMainComponent implements OnInit, OnDestroy {
         this.hideGallery();
       }
 
-      if (!item || item.index == null) return;
+      if (!item || item.index == null) {
+        return;
+      }
 
       if (item.index < 0) {
         this.showAlbum = false;
@@ -147,17 +149,17 @@ export class ListMainComponent implements OnInit, OnDestroy {
       this.showMap = false;
     });
 
-    this.selectionState$
-      .pipe(filter((item) => item !== null && item.currentSelection !== null))
-      .subscribe((item) => {
-        console.log(item);
-        this.router.navigate([item.currentSelection.propertyID], {
-          relativeTo: this.route,
-        });
-      });
+    // this.selectionState$
+    //   .pipe(filter((item) => item !== null && item.currentSelection !== null))
+    //   .subscribe((item) => {
+    //     console.log(item);
+    //     this.router.navigate([item.currentSelection.propertyID], {
+    //       relativeTo: this.route,
+    //     });
+    //   });
   }
 
-  onToggle(opened: boolean) {
+  onToggle(opened: boolean): void {
     if (!this.showMap) {
       this.showMap = true;
     }
@@ -168,7 +170,7 @@ export class ListMainComponent implements OnInit, OnDestroy {
     this.showExpandButton = false;
   }
 
-  onMapZoomedIn() {
+  onMapZoomedIn(): void {
     if (this.showSideNav) {
       this.showExpandButton = true;
     }
@@ -180,14 +182,14 @@ export class ListMainComponent implements OnInit, OnDestroy {
     }
   }
 
-  onExpandMap() {
+  onExpandMap(): void {
     if (this.mapRef) {
       this.mapRef.fitBounds();
       this.showExpandButton = false;
     }
   }
 
-  private loadList() {
+  private loadList(): void {
     if (
       !this.route.snapshot.paramMap.has('listID') ||
       !this.route.snapshot.paramMap.has('token')
@@ -200,22 +202,21 @@ export class ListMainComponent implements OnInit, OnDestroy {
       this.route.snapshot.queryParams['receipt']
     );
 
-
     this.listService.subscription
-        .pipe(isNotNullOrUndefined())
-        .subscribe((data: any) => {
-          if (data.error) this.router.navigate(['/access-denied']);
+      .pipe(isNotNullOrUndefined())
+      .subscribe((data: any) => {
+        if (data.error) this.router.navigate(['/access-denied']);
 
-          this.title.setTitle(data.agentInfo.company);
-          this.store.dispatch(
-            ResultActions.save({
-              results: data.records,
-              showContactInfo: data.showContactInfo,
-              agentInfo: data.agentInfo,
-            })
-          );
-          this.store.dispatch(LayoutActions.mapResetZoom());
-        })
+        this.title.setTitle(data.agentInfo.company);
+        this.store.dispatch(
+          ResultActions.save({
+            results: data.records,
+            showContactInfo: data.showContactInfo,
+            agentInfo: data.agentInfo,
+          })
+        );
+        this.store.dispatch(LayoutActions.mapResetZoom());
+      });
   }
 
   onMapLoaded() {

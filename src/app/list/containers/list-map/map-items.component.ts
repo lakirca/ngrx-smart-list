@@ -154,9 +154,10 @@ export class MapItemsComponent implements OnInit, OnDestroy, AfterViewInit {
             })
           );
         });
-        //this.store.dispatch(SelectionActions.saveSelections({ selections }));
+        
+        this.store.dispatch(SelectionActions.saveSelections({ selections }));
         this.store.dispatch(LayoutActions.mapLoadComplete());
-        //this.rawMap.fitBounds(bounds);
+        // this.rawMap.fitBounds(bounds);
         this.boundsList = bounds;
       })
     );
