@@ -1,13 +1,18 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Store } from '@ngrx/store'
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Store } from '@ngrx/store';
+import { ListService } from 'src/app/core/services/list.service';
 import { AppState } from 'src/app/store/app.state';
-
-import { ListService } from '../../core/services/list.service';
 
 @Component({
   selector: 'app-tip-free-service',
   templateUrl: './list-splash.html',
-  styleUrls: ['./list-splash.scss']
+  styleUrls: ['./list-splash.scss'],
 })
 export class TipFreeServiceComponent implements OnInit, OnDestroy {
   list$;
@@ -20,8 +25,7 @@ export class TipFreeServiceComponent implements OnInit, OnDestroy {
   constructor(
     private listService: ListService,
     private store: Store<AppState>
-  ) {
-  }
+  ) {}
 
   ngOnDestroy() {
     this.list$.unsubscribe();

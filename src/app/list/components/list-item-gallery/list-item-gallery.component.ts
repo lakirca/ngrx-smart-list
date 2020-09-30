@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { LayoutActions } from 'src/app/store/actions';
 import { AppState } from 'src/app/store/app.state';
 
-import { PropertyService } from '../../core/services/property.service';
+import { PropertyService } from 'src/app/core/services/property.service';
 
 @Component({
   selector: 'app-list-item-gallery',

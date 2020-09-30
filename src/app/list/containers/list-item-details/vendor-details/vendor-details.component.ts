@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PropertyService } from '../../../core/services/property.service';
-import { ListService } from '../../../core/services/list.service';
 import { Subscription } from 'rxjs/Subscription';
 //import { isNullOrUndefined } from 'util';
 import { isNotNullOrUndefined } from 'src/app/shared/_shared';
@@ -12,6 +10,8 @@ import { Observable } from 'rxjs';
 import { LayoutState } from 'src/app/store/interfaces/LayoutState';
 import { AppState } from 'src/app/store/app.state';
 import { LayoutActions, SelectionActions } from 'src/app/store/actions';
+import { PropertyService } from 'src/app/core/services/property.service';
+import { ListService } from 'src/app/core/services/list.service';
 
 @Component({
   selector: 'app-list-item-details-vendor-details',

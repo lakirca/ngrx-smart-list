@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/publishLast';
-import { LoggingService } from './LoggingService';
 import { AppState } from 'src/app/store/app.state';
 import { SelectionActions, ResultActions } from '../../store/actions/index';
+import { LoggingService } from '../LoggingService';
 
 @Injectable()
 export class ListService {

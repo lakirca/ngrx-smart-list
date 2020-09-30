@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccessDeniedComponent } from './core/components/access-denied/access-denied.component';
+import { ListItemDetailsComponent } from './list/containers/list-item-details/list-item-details.component';
 
-import { ListMainComponent } from './list/list-main/list-main.component';
-import { ListItemsComponent } from './list/list-items/list-items.component';
-import { ListItemDetailsComponent } from './list/list-item-details/list-item-details.component';
+import { ListItemsComponent } from './list/containers/list-items/list-items.component';
+import { ListMainComponent } from './list/containers/list-main/list-main.component';
 //import { LoadPropertyResolver } from './list/list-item-details/load-property-resolver.service';
 
 const appRoutes: Routes = [
@@ -12,12 +13,12 @@ const appRoutes: Routes = [
     component: ListMainComponent,
     children: [
       { path: '', component: ListItemsComponent },
-      { path: ':propertyID', component: ListItemDetailsComponent }//resolve: { poperties: LoadPropertyResolver } },
+      { path: ':propertyID', component: ListItemDetailsComponent }, //resolve: { poperties: LoadPropertyResolver } },
     ],
   },
   {
     path: 'access-denied',
-    loadChildren: () => import('./modules/access-denied/access-denied.module').then(m => m.AccessDeniedModule),
+    component: AccessDeniedComponent,
     data: { title: 'Access Denied' },
   },
   {
@@ -31,4 +32,4 @@ const appRoutes: Routes = [
   imports: [RouterModule.forRoot(appRoutes, { enableTracing: false })],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

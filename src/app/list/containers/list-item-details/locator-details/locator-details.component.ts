@@ -5,15 +5,15 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { filter, switchMap } from 'rxjs/operators';
 
-import { PropertyService } from '../../../core/services/property.service';
-import { ListService } from '../../../core/services/list.service';
-import { LoggingService } from '../../../core/services/LoggingService';
 import { isNotNullOrUndefined, PropertyModel } from 'src/app/shared/_shared';
 import { GalleryEvent } from './models/interfaces';
 import { Observable } from 'rxjs';
 import { LayoutState } from 'src/app/store/interfaces/LayoutState';
 import { AppState } from 'src/app/store/app.state';
 import { LayoutActions, SelectionActions } from 'src/app/store/actions';
+import { PropertyService } from 'src/app/core/services/property.service';
+import { LoggingService } from 'src/app/core/LoggingService';
+import { ListService } from 'src/app/core/services/list.service';
 
 @Component({
   selector: 'app-list-item-details-locator-details',

@@ -1,13 +1,12 @@
 import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
-import { LoggingService } from '../core/services/LoggingService';
 import * as StackTrace from 'stacktrace-js';
+import { LoggingService } from './LoggingService';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(private injector: Injector) {
-  }
+  constructor(private injector: Injector) {}
 
   handleError(error) {
     const loggingService = this.injector.get(LoggingService);
@@ -16,12 +15,13 @@ export class GlobalErrorHandler implements ErrorHandler {
     const url = location instanceof PathLocationStrategy ? location.path() : '';
 
     // get the stack trace, lets grab the last 10 stacks only
-    StackTrace.fromError(error).then(stackframes => {
+    StackTrace.fromError(error).then((stackframes) => {
       const stackString = stackframes
         .splice(0, 20)
         .map(function (sf) {
           return sf.toString();
-        }).join('\n');
+        })
+        .join('\n');
 
       loggingService.logException(message, url, stackString);
     });

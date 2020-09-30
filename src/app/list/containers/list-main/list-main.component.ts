@@ -18,11 +18,11 @@ import { MapItemsComponent } from '../list-map/map-items.component';
 import { animationShow } from './configs/animations';
 import { PropertyService } from 'src/app/core/services/property.service';
 import { ListService } from 'src/app/core/services/list.service';
-import { NgxGalleryImage } from 'src/app/list/list-main/models/ngx-gallery.model';
 import { SelectionState } from 'src/app/store/interfaces/SelectionState';
 import { LayoutState } from 'src/app/store/interfaces/LayoutState';
 import { AppState } from 'src/app/store/app.state';
 import { LayoutActions, ResultActions } from 'src/app/store/actions';
+import { NgxGalleryImage } from 'src/app/shared/models/ngrx-gallery.model';
 
 @Component({
   selector: 'app-list-main',
@@ -31,9 +31,6 @@ import { LayoutActions, ResultActions } from 'src/app/store/actions';
   animations: [animationShow],
 })
 export class ListMainComponent implements OnInit, OnDestroy {
-  galleryImages: NgxGalleryImage[];
-  subscriptions: Array<Subscription> = [];
-
   @ViewChild('drawer', { static: false })
   drawer: MatDrawer;
 
@@ -58,7 +55,6 @@ export class ListMainComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private listService: ListService,
-    private propertyService: PropertyService,
     private title: Title
   ) {}
 
@@ -91,10 +87,6 @@ export class ListMainComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach((s) => s.unsubscribe());
-  }
-
   scrollToTop() {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -117,57 +109,44 @@ export class ListMainComponent implements OnInit, OnDestroy {
     this.scrollToTop();
     this.loadList();
 
-    this.subscriptions.push(
-      this.layoutState$.subscribe((item) => {
-        if (
-          item &&
-          item.subsystem === 'map' &&
-          item.message === 'load-complete'
-        ) {
-          this.onMapLoaded();
-        }
+    this.layoutState$.subscribe((item) => {
+      if (
+        item &&
+        item.subsystem === 'map' &&
+        item.message === 'load-complete'
+      ) {
+        this.onMapLoaded();
+      }
 
-        if (
-          item &&
-          item.subsystem === 'photo-gallery' &&
-          item.message === 'close'
-        ) {
-          this.hideGallery();
-        }
+      if (
+        item &&
+        item.subsystem === 'photo-gallery' &&
+        item.message === 'close'
+      ) {
+        this.hideGallery();
+      }
 
-        if (!item || item.index == null) return;
+      if (!item || item.index == null) return;
 
-        if (item.index < 0) {
-          this.showAlbum = false;
-          this.showMap = true;
-          return;
-        }
+      if (item.index < 0) {
+        this.showAlbum = false;
+        this.showMap = true;
+        return;
+      }
 
-        this.showWelcome = 'shown';
-        this.showAlbum = true;
-        this.showMap = false;
-      })
-    );
+      this.showWelcome = 'shown';
+      this.showAlbum = true;
+      this.showMap = false;
+    });
 
-    this.galleryImages = [];
-    this.subscriptions.push(
-      this.propertyService.subscription
-        .pipe(filter((data) => data && data.photos && data.photos.length))
-        .subscribe((data: any) => {
-          this.configureGallery(data.photos);
-        })
-    );
-
-    this.subscriptions.push(
-      this.selectionState$
-        .pipe(filter((item) => item !== null && item.currentSelection !== null))
-        .subscribe((item) => {
-          console.log(item);
-          this.router.navigate([item.currentSelection.propertyID], {
-            relativeTo: this.route,
-          });
-        })
-    );
+    this.selectionState$
+      .pipe(filter((item) => item !== null && item.currentSelection !== null))
+      .subscribe((item) => {
+        console.log(item);
+        this.router.navigate([item.currentSelection.propertyID], {
+          relativeTo: this.route,
+        });
+      });
   }
 
   onToggle(opened: boolean) {
@@ -200,17 +179,6 @@ export class ListMainComponent implements OnInit, OnDestroy {
     }
   }
 
-  private configureGallery(photos) {
-    this.galleryImages = [];
-    photos.forEach((url) => {
-      this.galleryImages = this.galleryImages.concat({
-        small: url.replace('/standard/', '/micros/'),
-        medium: url.replace('/standard/', '/previews/'),
-        big: url,
-      });
-    });
-  }
-
   private loadList() {
     if (
       !this.route.snapshot.paramMap.has('listID') ||
@@ -224,8 +192,8 @@ export class ListMainComponent implements OnInit, OnDestroy {
       this.route.snapshot.queryParams['receipt']
     );
 
-    this.subscriptions.push(
-      this.listService.subscription
+
+    this.listService.subscription
         .pipe(isNotNullOrUndefined())
         .subscribe((data: any) => {
           if (data.error) this.router.navigate(['/access-denied']);
@@ -240,7 +208,6 @@ export class ListMainComponent implements OnInit, OnDestroy {
           );
           this.store.dispatch(LayoutActions.mapResetZoom());
         })
-    );
   }
 
   onMapLoaded() {
@@ -308,4 +275,6 @@ export class ListMainComponent implements OnInit, OnDestroy {
   get needToShowExpandMapIcon() {
     return this.mobileVersion && this.showExpandButton && !this.showAlbum;
   }
+
+  ngOnDestroy(): void {}
 }

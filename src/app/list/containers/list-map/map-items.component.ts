@@ -8,12 +8,7 @@ import {
   EventEmitter,
   ElementRef,
 } from '@angular/core';
-import { SelectionItem } from '../../shared/models/selection-item.model';
 import { Store } from '@ngrx/store';
-
-import * as SelectionActions from '../../store/actions/selection.actions';
-import * as LayoutActions from '../../store/actions/layout.actions';
-
 import { Subscription } from 'rxjs/Subscription';
 import { filter } from 'rxjs/operators';
 import * as mapboxgl from 'mapbox-gl';
@@ -22,6 +17,8 @@ import { LayoutState } from 'src/app/store/interfaces/LayoutState';
 import { ResultState } from 'src/app/store/interfaces/ResultState';
 import { SelectionState } from 'src/app/store/interfaces/SelectionState';
 import { AppState } from 'src/app/store/app.state';
+import { LayoutActions, SelectionActions } from 'src/app/store/actions';
+import { SelectionItem } from 'src/app/shared/models/selection-item.model';
 
 @Component({
   selector: 'app-map-items',

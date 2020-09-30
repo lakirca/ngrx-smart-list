@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import 'rxjs/add/operator/publishLast';
-import { LoggingService } from './LoggingService';
+import { LoggingService } from '../LoggingService';
 
 @Injectable()
 export class PropertyService {
@@ -23,12 +23,13 @@ export class PropertyService {
   constructor(
     private http: HttpClient,
     private loggingService: LoggingService
-  ) {
-  }
+  ) {}
 
   private fetch(propertyID: number): any {
     return this.http
-      .get(`${this.baseUrl}/propertyItem.aspx?listID=${this.listID}&propertyID=${propertyID}&token=${this.token}`)
+      .get(
+        `${this.baseUrl}/propertyItem.aspx?listID=${this.listID}&propertyID=${propertyID}&token=${this.token}`
+      )
       .publishLast()
       .refCount();
   }
@@ -59,13 +60,19 @@ export class PropertyService {
       let desc = [];
       if (petInfo.breedRestriction) desc = desc.concat('No Aggressive Breeds');
       if (petInfo.limit === 1) desc = desc.concat('1 Pet Max');
-      else if (petInfo.limit < 10) desc = desc.concat(petInfo.limit + ' Pets Max');
+      else if (petInfo.limit < 10)
+        desc = desc.concat(petInfo.limit + ' Pets Max');
 
-      if (petInfo.weight < 200) desc = desc.concat(petInfo.weight + ' lbs. limit');
+      if (petInfo.weight < 200)
+        desc = desc.concat(petInfo.weight + ' lbs. limit');
       else if (petInfo.weight > 200) desc = desc.concat('No Weight Limit');
 
-      if (petInfo.extraRent) desc = desc.concat('$' + petInfo.extraRent + '/mo extra');
-      if (petInfo.nonRefundableFee > 0) desc = desc.concat('$' + petInfo.nonRefundableFee + ' non-refundable deposit');
+      if (petInfo.extraRent)
+        desc = desc.concat('$' + petInfo.extraRent + '/mo extra');
+      if (petInfo.nonRefundableFee > 0)
+        desc = desc.concat(
+          '$' + petInfo.nonRefundableFee + ' non-refundable deposit'
+        );
       if (petInfo.interview) desc = desc.concat('Visual Inspection Required');
 
       return desc;
@@ -83,10 +90,10 @@ export class PropertyService {
 
     data = { ...data, petOptions: getPetOptions(data.petInfo) };
     data = { ...data, parkingOptions: getParkingOptions(data.parking) };
-    data.floorplans = data.floorplans.map(f => {
+    data.floorplans = data.floorplans.map((f) => {
       return {
         ...f,
-        washerDryer: getWasherDryer(f.washerDryer)
+        washerDryer: getWasherDryer(f.washerDryer),
       };
     });
 
@@ -104,8 +111,8 @@ export class PropertyService {
     //   return;
     // }
 
-    this.fetch(propertyID)
-      .subscribe(packet => {
+    this.fetch(propertyID).subscribe(
+      (packet) => {
         if ('error' in packet) {
           this.publish(packet);
           return;
@@ -114,9 +121,10 @@ export class PropertyService {
         this.data = this.transform(packet);
         this.db.set(propertyID, this.data);
         this.publish(this.data);
-
-      }, error => {
+      },
+      (error) => {
         this.loggingService.logException('PropertyService.load()', '', error);
-      });
+      }
+    );
   }
 }
