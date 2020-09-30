@@ -100,11 +100,19 @@ import { EffectsModule } from '@ngrx/effects';
     MatSliderModule,
     MatSlideToggleModule,
     MatTabsModule,
-    StoreModule.forRoot({
-      selectionState: selectionReducer,
-      layoutState: layoutReducer,
-      resultState: resultReducer,
-    }),
+    StoreModule.forRoot(
+      {
+        selectionState: selectionReducer,
+        layoutState: layoutReducer,
+        resultState: resultReducer,
+      },
+      {
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false,
+        },
+      }
+    ),
     StoreDevtoolsModule.instrument({
       name: 'Smart App Dev Tool',
       maxAge: 50,

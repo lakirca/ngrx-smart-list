@@ -62,10 +62,10 @@ export const layoutReducer = createReducer<LayoutState>(
       message: 'load-complete',
     };
   }),
-  on(LayoutActions.toggleFavFilter, (state, action) => {
+  on(LayoutActions.toggleFavFilter, (state) => {
     return {
       ...state,
-      isFavSelected: action.isFavSelected,
+      isFavSelected: !state.isFavSelected,
     };
   })
 );

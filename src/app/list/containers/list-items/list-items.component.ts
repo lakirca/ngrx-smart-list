@@ -9,13 +9,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { isNotNullOrUndefined } from 'src/app/shared/_shared';
-import { ListService } from 'src/app/core/services/list.service';
 import { LayoutState } from 'src/app/store/interfaces/LayoutState';
 import { ResultFilter } from 'src/app/store/interfaces/ResultFilter';
 import { ResultState } from 'src/app/store/interfaces/ResultState';
-import { SelectionState } from 'src/app/store/interfaces/SelectionState';
 import { AppState } from 'src/app/store/app.state';
 import {
   LayoutActions,
@@ -51,8 +48,6 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
   isFavSelected$: Observable<boolean>;
 
   resultState$: Observable<ResultState>;
-  layoutState$: Observable<LayoutState>;
-  selectionState$: Observable<SelectionState>;
 
   selection$: Observable<any>;
   results$: Observable<any>;
@@ -92,26 +87,10 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private cdRef: ChangeDetectorRef,
-    private listService: ListService
+    private cdRef: ChangeDetectorRef
   ) {}
 
-  get layout() {
-    return this.layoutState$; //this.store.select('layoutState');
-  }
-
-  get displayResults$() {
-    return this.store.select('resultState').pipe(
-      isNotNullOrUndefined(),
-      map((state) =>
-        state.DisplayResults().find((f: any) => f.favorite === true)
-      )
-    );
-  }
-
-  ngOnInit() {
-    this.layoutState$ = this.store.select('layoutState');
-    this.selectionState$ = this.store.select('selectionState');
+  ngOnInit(): void {
     this.resultState$ = this.store.select('resultState');
 
     this.agentInfo$ = this.store.select(selectAgentInfo);
@@ -122,11 +101,11 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unfiltered$ = this.store.select(selectUnfiltered);
     this.isFavSelected$ = this.store.select(isFavSelected);
 
-    this.load();
-
-    this.layoutState$.subscribe(
-      (state) => (this.isFavSelected = state.isFavSelected)
+    this.subs.sink = this.isFavSelected$.subscribe(
+      (isSelected: boolean) => (this.isFavSelected = isSelected)
     );
+
+    this.load();
   }
 
   ngAfterViewInit(): void {
@@ -144,7 +123,6 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
       let index;
 
       this.subs.sink = this.results$.subscribe((items) => {
-        console.log(items);
         index = +items.findIndex((r) => r.propertyID === pID) - OFFSET;
       });
 
@@ -156,18 +134,23 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   load(): void {
-    this.resultState$.pipe(isNotNullOrUndefined()).subscribe((item) => {
-      this.cdRef.detectChanges();
-      this.updateFilterOptions(item.unfiltered);
+    this.subs.sink = this.resultState$
+      .pipe(isNotNullOrUndefined())
+      .subscribe((item) => {
+        this.cdRef.detectChanges();
+        this.updateFilterOptions(item.unfiltered);
 
-      if (item.filters) {
-        this.updateFilterLabels(item.filters);
-      }
-    });
+        if (item.filters) {
+          this.updateFilterLabels(item.filters);
+        }
+      });
   }
 
-  updateFilterOptions(results: Array<any>) {
+  updateFilterOptions(results: Array<any>): void {
+    this._maxRent.next(0);
+    this._minRent.next(0);
     this._minRent.next(Number.MAX_SAFE_INTEGER);
+    let bedrooms;
 
     results.map((record) => {
       record.floorplans.map((f) => {
@@ -180,7 +163,7 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
           this._currentMinRent.next(f.price);
         }
         if (!this._bedrooms.getValue().includes(f.bedrooms)) {
-          const bedrooms = this._bedrooms.getValue().concat(f.bedrooms);
+          bedrooms = this._bedrooms.getValue().concat(f.bedrooms);
           this._bedrooms.next(bedrooms);
           this._currentBedrooms.next(bedrooms);
         }
@@ -212,7 +195,7 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.toggleEditRentMode();
   }
 
-  onBedroomFilterChanged(newBedroomSelections): void {
+  onBedroomFilterChanged(newBedroomSelections): any {
     this.updateBedroomsFilterLabel(newBedroomSelections);
     this.toggleEditBedMode();
   }
@@ -232,7 +215,6 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onItemClick(dataItem: any): void {
-    console.log(dataItem);
     this.router
       .navigate([dataItem.propertyID], { relativeTo: this.route })
       .then(() => {
@@ -247,13 +229,10 @@ export class ListItemsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onToggleFav(data): void {
-    console.log(data);
-    // this.store.dispatch(
-    //   LayoutActions.toggleFavFilter({ isFavSelected: !this.isFavSelected })
-    // );
-    // this.store.dispatch(
-    //   ResultActions.filterResults({ filters: { favorite: this.isFavSelected } })
-    // );
+    this.store.dispatch(LayoutActions.toggleFavFilter());
+    this.store.dispatch(
+      ResultActions.filter({ filters: { favorite: this.isFavSelected } })
+    );
   }
 
   ngOnDestroy(): void {}

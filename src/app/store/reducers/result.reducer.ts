@@ -24,7 +24,6 @@ const initialState: ResultState = {
   },
 };
 
-
 function getFilteredSelections(
   filters: ResultFilter,
   results: Array<any>

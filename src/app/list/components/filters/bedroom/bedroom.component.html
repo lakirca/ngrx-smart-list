@@ -1,11 +1,17 @@
 <div class="content">
   <div class="round-button-flexgrid">
-    <div *ngFor="
+    <div
+      *ngFor="
         let bedroom of allAvailableOptions;
         let first = first;
         let last = last
-      " class="round-button" [class.first]="first" [class.last]="last" [class.selected]="changed.indexOf(bedroom) >= 0"
-      (click)="onToggle(bedroom, $event)">
+      "
+      class="round-button"
+      [class.first]="first"
+      [class.last]="last"
+      [class.selected]="changed.indexOf(bedroom) >= 0"
+      (click)="onToggle(bedroom, $event)"
+    >
       <ng-container *ngIf="bedroom === 0">Studio</ng-container>
       <ng-container *ngIf="bedroom > 0">{{ bedroom }} Bed</ng-container>
     </div>

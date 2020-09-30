@@ -45,8 +45,8 @@
     <div class="filter-title">
       <app-list-filter-favorite
         (restoreList)="onRestoreList()"
-        (toggleState)="onToggleFav(isFavSelected$)"
-        [isActive]="isFavSelected$ | async"
+        (toggleState)="onToggleFav()"
+        [isActive]="isFavSelected"
         [hidden]="(favoriteResults$ | async) === undefined"
       ></app-list-filter-favorite>
     </div>

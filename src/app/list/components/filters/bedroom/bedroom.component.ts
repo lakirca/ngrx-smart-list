@@ -26,7 +26,7 @@ export class ListFilterBedroomComponent implements OnInit, OnChanges {
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
     if ('available' in changes && this.changed.length === 0) {
@@ -39,6 +39,7 @@ export class ListFilterBedroomComponent implements OnInit, OnChanges {
     const checked = event.target.classList.contains('selected');
     if (checked && this.changed.length === 1) return;
 
+    console.log(bedroom);
     if (checked) {
       event.target.classList.remove('selected');
       this.changed = this.changed.filter((e) => e !== bedroom);
@@ -48,7 +49,7 @@ export class ListFilterBedroomComponent implements OnInit, OnChanges {
     }
   }
 
-  applyBedroomFilters() {
+  applyBedroomFilters(): void {
     this.store.dispatch(
       ResultActions.filter({ filters: { bedrooms: this.changed } })
     );
