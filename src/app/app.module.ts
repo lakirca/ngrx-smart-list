@@ -52,6 +52,8 @@ import { ListMainMapSwitchComponent } from './list/containers/list-main/list-mai
 import { ListMainComponent } from './list/containers/list-main/list-main.component';
 import { MapItemsComponent } from './list/containers/list-map/map-items.component';
 import { AccessDeniedComponent } from './core/components/access-denied/access-denied.component';
+import { ListEffects } from './store/effects/list.effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -107,7 +109,7 @@ import { AccessDeniedComponent } from './core/components/access-denied/access-de
       name: 'Smart App Dev Tool',
       maxAge: 50,
     }),
-    //EffectsModule.forRoot([ListEffects]),
+    EffectsModule.forRoot([ListEffects]),
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

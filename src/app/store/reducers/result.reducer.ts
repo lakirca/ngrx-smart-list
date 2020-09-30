@@ -24,24 +24,6 @@ const initialState: ResultState = {
   },
 };
 
-const getSelectionFeatureState = createFeatureSelector<ResultState>(
-  'resultState'
-);
-
-export const getLoadedResult = createSelector(
-  getSelectionFeatureState,
-  (state) => state
-);
-
-export const getRole = createSelector(
-  getSelectionFeatureState,
-  (state) => state.role
-);
-
-export const getAgentInfo = createSelector(
-  getSelectionFeatureState,
-  (state) => state.agentInfo
-);
 
 function getFilteredSelections(
   filters: ResultFilter,

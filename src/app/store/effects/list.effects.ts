@@ -21,17 +21,14 @@ export class ListEffects {
     return this.actions$.pipe(
       ofType(ResultActions.loadResults),
       mergeMap((action) =>
-        this.listService
-          .load(action.listID, action.token, action.receipt)
-
-          .pipe(
-            map((results: any) =>
-              ResultActions.loadResultsSuccess({ payload: results })
-            ),
-            catchError((error: any) =>
-              of(ResultActions.loadResultsFailure({ error }))
-            )
+        this.listService.loadListData(action.listID, action.token).pipe(
+          map((results: any) =>
+            ResultActions.loadResultsSuccess({ payload: results })
+          ),
+          catchError((error: any) =>
+            of(ResultActions.loadResultsFailure({ error }))
           )
+        )
       )
     );
   });

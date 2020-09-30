@@ -1,17 +1,16 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ResultsState } from '../interfaces/ResultState';
+import { ResultState } from '../interfaces/ResultState';
 
-const getResultFeatureState = createFeatureSelector<any>('resultState');
+const getResultFeatureState = createFeatureSelector<ResultState>('resultState');
 
 export const selectAgentInfo = createSelector(
   getResultFeatureState,
   (state) => state.agentInfo
 );
 
-export const selectRole = createSelector(
-  getResultFeatureState,
-  (state) => state.role
-);
+export const selectRole = createSelector(getResultFeatureState, (state) => {
+  return state.role;
+});
 
 export const selectFavoriteResults = createSelector(
   getResultFeatureState,
@@ -40,7 +39,6 @@ export const selectIndex = createSelector(
     state.DisplayResults().findIndex((r) => r.propertyID === props.pID) -
     props.OFFSET
 );
-
 
 export const getError = createSelector(
   getResultFeatureState,

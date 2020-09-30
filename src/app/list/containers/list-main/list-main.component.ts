@@ -102,6 +102,14 @@ export class ListMainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(
+      ResultActions.loadResults({
+        listID: 5363950,
+        token: '5AE7DFB40500DDC03BC84BD3F0A8AC0F18784B1E',
+        receipt: undefined,
+      })
+    );
+    
     this.selectionState$ = this.store.select('selectionState');
     this.layoutState$ = this.store.select('layoutState');
 

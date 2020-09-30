@@ -62,6 +62,14 @@ export class ListService {
       .refCount();
   }
 
+  loadListData(listID: number, token: string): any {
+    this.listID = listID;
+    this.token = token;
+
+    return this.http.get(
+      `${this.baseUrl}/listItems.aspx?listID=${this.listID}&token=${this.token}`
+    );
+  }
   public toggleFavorite(propertyID: number, isFavorite: boolean) {
     if (isFavorite) {
       this.store.dispatch(SelectionActions.favorite({ propertyID }));
